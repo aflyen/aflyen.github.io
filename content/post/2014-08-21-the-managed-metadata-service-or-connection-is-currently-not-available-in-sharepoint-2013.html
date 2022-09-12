@@ -1,0 +1,89 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2014-08-21T11:31:57Z"
+meta:
+  _oembed_2bc6a194ab31b56d7ba0c01f59aaee1d: '{{unknown}}'
+  _oembed_2c3bb68c88cb3d543aac4a337ef3e320: '{{unknown}}'
+  _oembed_6a6dc37defa8fbead0fc97720ddcc5c7: '{{unknown}}'
+  _publicize_pending: "1"
+  _rest_api_client_id: "-1"
+  _rest_api_published: "1"
+  _wpas_skip_facebook: "1"
+  _wpas_skip_google_plus: "1"
+  _wpas_skip_linkedin: "1"
+  _wpas_skip_path: "1"
+  _wpas_skip_tumblr: "1"
+  _wpas_skip_twitter: "1"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Development environment
+- Error
+- ITPRO
+- Managed Metadata
+- SharePoint 2013
+title: The Managed Metadata Service or Connection is currently not available in SharePoint
+  2013
+type: post
+url: /2014/08/21/the-managed-metadata-service-or-connection-is-currently-not-available-in-sharepoint-2013/
+---
+<div style="direction:ltr;border-width:100%;">
+<div style="direction:ltr;margin-top:0;margin-left:0;width:7.6041in;">
+<div style="direction:ltr;margin-top:0;margin-left:0;width:7.6041in;">
+<h2 style="margin:0;font-family:Calibri;font-size:14pt;color:#2e75b5;">Problem</h2>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">Error in Central Admin when accessing the Managed Metadata service application:</span></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"><em>The Managed Metadata Service or Connection is currently not available. The Application Pool or Managed Metadata Web Service may not have been started. Please Contact your Administrator.</em></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">Error in ULS log:</span></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"><em>Failed to get term store for proxy 'Managed Metadata Service'. Exception: System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.</em></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">Error in Event viewer:</span></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"><em>The Managed Metadata Service 'Managed Metadata Service' is inaccessible.</em></p>
+<p style="margin:0;margin-left:.375in;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;">I did investigate many suggested solutions out there, and the most similar description of the scenario I found here:</p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><a href="http://sharepoint-community.net/forum/topics/failed-to-get-term-store-for-proxy-managed-metadata-service">http://sharepoint-community.net/forum/topics/failed-to-get-term-store-for-proxy-managed-metadata-service</a></p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;">Previously I had tried to re-create the service application with the same database, but it failed in the same way. So this pointed me to that the error was within the database, not permissions in Central Admin, AppPool trouble, services etc.</p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;">As someone mentioned in the discussion above, you might have to create a new database and restore the data. In my case this was on a development environment, so backup/restore you said? Luckily i managed to make a way through this problem without scratching the database for good.</p>
+<h2 style="margin:0;font-family:Calibri;font-size:14pt;color:#2e75b5;"> </h2>
+<h2 style="margin:0;font-family:Calibri;font-size:14pt;color:#2e75b5;">Solution</h2>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">These steps solved the issue for me: </span></p>
+<ol style="margin-left:.375in;direction:ltr;unicode-bidi:embed;margin-top:0;margin-bottom:0;font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;" type="1">
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;" value="1"><span style="font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;">Go to "Central Administration" and select "Manage service applications".</span></li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Select your Managed Metadata service application, in my case with almost that name and the button "Properties":</span>
+<ol style="margin-left:.375in;direction:ltr;unicode-bidi:embed;margin-top:0;margin-bottom:0;font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;" type="a">
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;font-family:Calibri;font-size:11pt;" value="1"><a href="https://aflyen.files.wordpress.com/2014/08/mms-error-1.png"><img class="alignnone size-medium wp-image-298" src="{{ site.baseurl }}/assets/2014/08/mms-error-1.png?w=300" alt="mms-error-1" width="300" height="226" /></a></li>
+</ol>
+</li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Locate the "Database name" and change this one to for example "SP2013_MetaData_NEW". Remember to take a note of the old database name for the next steps:</span>
+<ol style="margin-left:.375in;direction:ltr;unicode-bidi:embed;margin-top:0;margin-bottom:0;font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;" type="a">
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;" value="1"> <a href="https://aflyen.files.wordpress.com/2014/08/mms-error-2.png"><img class="alignnone size-medium wp-image-299" src="{{ site.baseurl }}/assets/2014/08/mms-error-2.png?w=300" alt="mms-error-2" width="300" height="154" /></a></li>
+</ol>
+</li>
+</ol>
+<ol style="margin-left:.375in;direction:ltr;unicode-bidi:embed;margin-top:0;margin-bottom:0;font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;" type="1">
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;" value="4"><span style="font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;">Select "OK" and give it some time. SharePoint now creates a new database for you with the name selected above. When it has completed, try to open the service application (Manage) and it now should open without problems, but as expected with an empty term store.</span></li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Go back to the list over service applications and repeat step 2. Now enter the old database name instead, in my case "SP2013_MetaData" and select "OK".</span></li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Wait some more an access the service application again (Manage). For me it looked like nothing had changed and I now only saw the new database, but I was missing permissions.</span></li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Locate the "Term store administrators" and at least add your admin user here:</span>
+<ol style="margin-left:.375in;direction:ltr;unicode-bidi:embed;margin-top:0;margin-bottom:0;font-family:Calibri;font-size:11pt;font-weight:normal;font-style:normal;" type="a">
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;font-family:Calibri;font-size:11pt;" value="1"><a href="https://aflyen.files.wordpress.com/2014/08/mms-error-3.png"><img class="alignnone size-medium wp-image-300" src="{{ site.baseurl }}/assets/2014/08/mms-error-3.png?w=300" alt="mms-error-3" width="300" height="51" /></a></li>
+</ol>
+</li>
+<li style="margin-top:0;margin-bottom:0;vertical-align:middle;"><span style="font-family:Calibri;font-size:11pt;">Select "Save" and now with the correct permissions you should have access to the existing Term Store and the service application would be back to normal.</span></li>
+</ol>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"> </p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;">Note: before performing these steps I had re-created the service application with the existing database. It can be possible that this was necessary to succeed.</p>
+</div>
+</div>
+</div>

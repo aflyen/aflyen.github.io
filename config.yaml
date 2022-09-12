@@ -1,0 +1,5 @@
+baseURL: https://aflyen.github.io
+disablePathToLower: true
+languageCode: en-us
+title: Are Flyen
+theme: paige

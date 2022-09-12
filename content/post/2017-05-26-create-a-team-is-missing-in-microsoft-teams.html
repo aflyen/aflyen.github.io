@@ -1,0 +1,40 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- Microsoft 365
+date: "2017-05-26T08:36:14Z"
+meta:
+  _edit_last: "14768874"
+  _publicize_job_id: "5451389079"
+  geo_public: "0"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Microsoft Teams
+- Office 365 Groups
+title: '"Create a team" is missing in Microsoft Teams'
+type: post
+url: /2017/05/26/create-a-team-is-missing-in-microsoft-teams/
+---
+<p>I came across a rare scenario when I was going to convert an existing Office 365 group to a Team. In Microsoft Teams ( https://teams.microsoft.com) I was unable to find the "Create a team" button. In my case I was logged on as a Global Admin and thought that I ruled the whole world, but then again no.</p>
+<h2>Scenario</h2>
+<p>In Microsoft Teams:</p>
+<ol>
+<li>Selected "Add team" in the lower right</li>
+<li>Expected to find the "Create a team" button (but where is it?)</li>
+</ol>
+<p><a href="https://aflyen.files.wordpress.com/2017/05/teams_missing_add_new_team.png"><img class="alignnone size-large wp-image-438" src="{{ site.baseurl }}/assets/2017/05/teams_missing_add_new_team.png?w=840" alt="" width="840" height="484" /></a></p>
+<h2>Solution</h2>
+<p>In this tenant the creation of Office 365 groups had been restricted for the end-users. This includes setting a AD group with the users allowed to do this.</p>
+<blockquote><p>Tips: <a href="https://support.office.com/en-us/article/Control-who-can-create-Office-365-Groups-4c46c8cb-17d0-44b5-9776-005fced8e618?ui=en-US&amp;rs=en-US&amp;ad=US" target="_blank" rel="noopener noreferrer">How to restrict Office 365 Groups creation</a></p></blockquote>
+<p>My Global Admin user was not added to this AD group. It turns out a requirement for also converting existing group to teams also are affected by this policy. So simply by adding my user into this group I was able to see the missing button:</p>
+<p><a href="https://aflyen.files.wordpress.com/2017/05/teams_create_a_team.png"><img class="alignnone size-full wp-image-437" src="{{ site.baseurl }}/assets/2017/05/teams_create_a_team.png" alt="" width="302" height="285" /></a></p>
+<h2>Summary</h2>
+<p>When restricting creation of Office 365 Groups, admin users must also explicit be added to this group to maintain full control over Groups and Teams creation.</p>

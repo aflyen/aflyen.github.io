@@ -1,0 +1,30 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2016-02-12T08:53:49Z"
+meta:
+  _oembed_1abb0a4d45834a5afe75187530985b76: '{{unknown}}'
+  _oembed_85fdb37b3cd72cef153d377c97d40f64: '{{unknown}}'
+  _publicize_job_id: "19724466736"
+  _rest_api_client_id: "-1"
+  _rest_api_published: "1"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- ITPRO
+- PowerShell
+- SharePoint 2013
+title: Add AD security group as Site Collection administrator with PowerShell in SharePoint
+type: post
+url: /2016/02/12/add-ad-security-group-as-site-collection-administrator-with-powershell/
+---
+<p>In provisioning solutions it can be a good practice to add a security group from Active Directory as an additional site collection owner. Unfortunately a security group is not accepted as either primary or secondary owner. So to set a group as site collection administrator, the easiest approach I could find was to set the "IsSiteAdmin" property on the User object.</p>
+<p>https://gist.github.com/aflyen/b4c68ca5f98baf745911</p>

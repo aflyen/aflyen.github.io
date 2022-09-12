@@ -1,0 +1,64 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- Microsoft 365
+date: "2022-03-22T21:25:55Z"
+meta:
+  _last_editor_used_jetpack: block-editor
+  _publicize_job_id: "70497762542"
+  timeline_notification: "1647980758"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Gulp
+- Node
+- SharePoint Framework
+- SPFx
+- TypeScript
+title: Errors after upgrading SharePoint Framework to a newer version
+type: post
+url: /2022/03/22/errors-after-upgrading-sharepoint-framework-to-a-newer-version/
+---
+<p><!-- wp:paragraph --></p>
+<p>After upgrading SharePoint Framework (SPFx) to the latest version, there still might be a chance for getting into trouble even if you have done everything by the books. An by the books I of course refer to using the excellent project upgrade tool from the Microsoft 365 CLI (https://pnp.github.io/cli-microsoft365/cmd/spfx/project/project-upgrade/).</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Example of error message after running a "gulp build":</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Error - &#091;tslint] The 'member-access' rule threw an error in ...</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Or maybe...</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Error - &#091;tslint] &lt;--- Last few GCs ---&gt;
+&#091;13034:0x5ded9a0]     3257 ms: Scavenge 870.4 (904.1) -&gt; 870.4 (904.1) MB, 41.4 / 0.0 ms  (average mu = 1.000, current mu = 1.000) allocation failure 
+&#091;13034:0x5ded9a0]     4061 ms: Scavenge 1265.7 (1299.4) -&gt; 1265.7 (1299.4) MB, 63.1 / 0.0 ms  (average mu = 1.000, current mu = 1.000) allocation failure 
+&#091;13034:0x5ded9a0]     5270 ms: Scavenge 1858.8 (1892.5) -&gt; 1858.8 (1892.5) MB, 95.0 / 0.0 ms  (average mu = 1.000, current mu = 1.000) allocation failure 
+&lt;--- JS stacktrace ---&gt;
+FATAL ERROR: invalid array length Allocation failed - JavaScript heap out of memory</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:heading --></p>
+<h2>Tips to solve this</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:list {"ordered":true} --></p>
+<ol>
+<li>You could have forgotten one of the steps in the upgrade report, so it is time to double check.</li>
+<li>Create a blank project from scratch to compare essential files like the <strong>tslint.json</strong>, <strong>tsconfig.json</strong> etc where it is easy to make mistakes between the versions</li>
+<li>Make sure you have a clean copy of you packages by deleting "package-lock.json" and the folder <strong>node_modules</strong>. Run new install of your packages with <strong>npm install</strong> and build the project with <strong>gulp build</strong> again.</li>
+<li>Check you <strong>package.json</strong> for issues with you packages. My most common mistake at the ends is to forget to remove old TypeScript versions when new ones are added by the upgrade script:</li>
+</ol>
+<p><!-- /wp:list --></p>
+<p><!-- wp:image {"id":1286,"sizeSlug":"large","linkDestination":"media"} --></p>
+{{< figure src="/assets/2022/03/image.png" width="100%" >}}
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>

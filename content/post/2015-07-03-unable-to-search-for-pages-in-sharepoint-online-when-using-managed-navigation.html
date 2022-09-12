@@ -1,0 +1,61 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2015-07-03T09:06:26Z"
+meta:
+  _edit_last: "14768874"
+  _publicize_job_id: "12275837027"
+  geo_public: "0"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Microsoft 365
+- Navigation
+- Publishing
+- SharePoint Online
+- Troubleshooting
+title: Unable to search for pages in SharePoint Online when using Managed Navigation
+type: post
+url: /2015/07/03/unable-to-search-for-pages-in-sharepoint-online-when-using-managed-navigation/
+---
+<p lang="en-US">This is a summary of an issue we have had with publishing pages not being indexed, and then unable to build the search-driven pages we wanted using for example Content Search Web Part. This occured in SharePoint Online (Office 365) and we have only had this issue with a couple of tenants. So my guess is that most tenants are working fine, but if you should come across this strange behavior, I hope this post can help you save some time.</p>
+<h2>The issue</h2>
+<ul type="disc">
+<li>Created a Publishing Site</li>
+<li>Added a Content Type and a Page Layout, created a few test articles</li>
+<li>Added a Content Search Web Part and set up a query to return articles for the Content Type created above</li>
+<li>Waited a long time (normal)</li>
+<li>No results (oops)</li>
+<li>Tried to reindex the library (curious)</li>
+<li>No results (worried)</li>
+<li>Retried all the steps (scared)</li>
+<li>No results (desperate)</li>
+<li>Got coffee (calm)</li>
+<li>No results (called support)</li>
+</ul>
+<p lang="en-US">I guess you get it. Something was very wrong and I was stuck on not getting any results back. On-Premises this would probable been one of those situations a full crawl, or at worst a index reset, had fixed it. But running in Office 365 we don't have these abilities.</p>
+<h2>The workaround</h2>
+<p lang="en-US">After some trial and error I understood what was causing the issue, and got this workaround:</p>
+<ul type="disc">
+<li>Go to "Site Settings"</li>
+<li>Select "Navigation" under "Look and feel"</li>
+<li>Uncheck these options:
+<ul type="circle">
+<li>Add new pages to navigation automatically</li>
+<li>Create friendly URLs for new pages automatically</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://aflyen.files.wordpress.com/2015/07/search-mn-error-1.png"><img class="alignnone wp-image-368 size-large" style="border:1px solid #000000;" src="{{ site.baseurl }}/assets/2015/07/search-mn-error-1.png?w=660" alt="search-mn-error-1" width="660" height="102" /></a></p>
+<p>All pages created and published after making this change was indexed and showed up as expected. Unfortunately all the pages created before doing this change was a lost cause. Believe me, I tried a lot but unable to get them indexed.</p>
+<h2>The fix</h2>
+<p lang="en-US">As being on Office 365 this issue was addressed with Microsoft Support, and after a while they released a fix.</p>
+<p lang="en-US">Unfortunately I suspect this error can still occur in some scenarios, and to make sure we don't run into this trouble again, a recommendation is to avoid using the Managed Navigation set up as shown above just to be safe.</p>

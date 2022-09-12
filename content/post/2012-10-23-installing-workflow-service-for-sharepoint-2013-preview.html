@@ -1,0 +1,67 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2012-10-23T00:10:23Z"
+meta:
+  _edit_last: "14768874"
+  _oembed_9be665e3c81504e187c5de7a9baee3eb: '{{unknown}}'
+  _oembed_36f188e0f29b925c8a77cc6e6c27eee0: '{{unknown}}'
+  _oembed_3e012ada6a8c0f37cd6ef5f3dc631d99: '{{unknown}}'
+  _oembed_259c3e4c365999a55c7e482f5dbd6c8b: '{{unknown}}'
+  _oembed_640c98ddc622847725133bf8ca166a19: '{{unknown}}'
+  _oembed_6883976926712edde3f406d2ce840dc8: '{{unknown}}'
+  _oembed_d5421e6db140961e3be2505206f18fc7: '{{unknown}}'
+  _oembed_e5b9df0773da571fae3fbdb43361db93: '{{unknown}}'
+  _publicize_pending: "1"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Development environment
+- ITPRO
+- SharePoint 2013
+- Workflow
+title: Installing workflow service for SharePoint 2013 Preview
+type: post
+url: /2012/10/23/installing-workflow-service-for-sharepoint-2013-preview/
+---
+<p>The workflow service in SharePoint 2013 Preview is no longer a part of the standard SharePoint server installation, and is provided by the Windows Workflow Manager (Azure). The service it self is a huge improvement to the product, but requires additional step as it has to be installed and configured post-installation of SharePoint Server 2013.</p>
+<p>Getting the workflow service in SharePoint 2013 Preview up and running on my development environment gave me some challenges that wasn't well documented at the time, so I decided to list some of the error messages and steps that helped me getting it up and running properly.</p>
+<h2>Installation and configuration</h2>
+<p>I started my installation by following this documentation on TechNet:</p>
+<p>Installation guide for Workflow Manager 1.0 Beta: <a href="http://technet.microsoft.com/en-us/library/jj193478">http://technet.microsoft.com/en-us/library/jj193478</a></p>
+<p>Configuration guide for connecting SharePoint 2013 to Workflow Manager: <a href="http://technet.microsoft.com/en-us/library/jj658588(v=office.15)">http://technet.microsoft.com/en-us/library/jj658588(v=office.15)</a></p>
+<h2>Error messages</h2>
+<ul>
+<li>Configuration wizard: Could not successfully create management Service Bus entity 'WF_Management/WFTOPIC' with multiple retries within timespan</li>
+<li>Browsing the WF management site (http://localhost:12291/):"Object reference not set to an instance of an object"</li>
+<li>Powershell: "The trusted provider certificate which is already in use." or  "Unable to properly communicate with the workflow endpoint"</li>
+<li>Service App error (<a href="http://sps2013pre:9999/_admin/WorkflowServiceStatus.aspx">/_admin/WorkflowServiceStatus.aspx</a>): "SharePoint was unable to communicate with the Workflow host"</li>
+</ul>
+<h2>Tips for troubleshooting</h2>
+<ul>
+<li>Check which regional settings are used on your setup and admin account. When I used something else than “English (United States) I got an error when accessing the configuration database.</li>
+<li>Remember to start SQL Server Browser, and keep it to start automatic.</li>
+<li>Grant the workflow service account the server roles “dbcreator” and “securityadmin” in SQL Server.</li>
+<li>Grant the workflow service account local administrator rights on the server.</li>
+<li>Run the workflow configuration wizard logged in as the workflow service account.</li>
+<li>Use a FQDN for the account in the configuration wizard (default suggestion is wrong).</li>
+<li>To clean up a failed installation:
+<ul>
+<li>Run workflow configuration wizard, and remove the server from the workflow farm.</li>
+<li>Manually delete the databases created (prefixed with Wf and Sb in default installation).</li>
+<li>If registered with SharePoint, remove the service application “App Fabric Application Proxy”.</li>
+</ul>
+</li>
+<li>It is possible to run the registration with SharePoint, Register-SPWorkflowService, with a “-Force” switch to get pass a state where it tells you it already has been registered, but still fails.</li>
+</ul>
+<h2>Summary</h2>
+<p>This article gives some tips for resolving different errors occurring either when installing the workflow service, or when connecting it with SharePoint.</p>
+<p><em>DISCLAIMER: SharePoint 2013 is in preview at the time this article was written. When the product reaches RTM the content of the article may not be relevant or wrong.</em></p>

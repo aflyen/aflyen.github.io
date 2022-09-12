@@ -1,0 +1,75 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2013-12-02T20:51:39Z"
+meta:
+  _edit_last: "14768874"
+  _oembed_0a2b3177730e155250157a4dfbba6060: '{{unknown}}'
+  _oembed_0bd6d896df17c3dcec2560f5074350ed: '{{unknown}}'
+  _oembed_892fde671461377c18d516dba3ac84c2: '{{unknown}}'
+  _publicize_pending: "1"
+  geo_public: "0"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- ITPRO
+- Migration
+- SharePoint 2010
+- SharePoint 2013
+title: Disable site collection upgrades after migrating from SharePoint 2010 to 2013
+type: post
+url: /2013/12/02/disabling-site-collection-upgrades-after-migrating-from-sharepoint-2010-to-2013/
+---
+<p>When migrating SharePoint from 2010 to 2013, it depend of the migration strategy you choose how the end result will appear for your end users. Two different approaches when migrating to SharePoint 2013 can be:</p>
+<ol>
+<li>Migrate the farm, content and solutions from 2010 to 2013</li>
+<li>Migrate the farm to 2013, but keep the content and solutions in 2010-mode</li>
+</ol>
+<p>Selecting the last approach requires the least effort, and could be preferred for several reasons:</p>
+<ul>
+<li>Reduce the scope of the migration to only include the farm. Less risk and effort needed.</li>
+<li>Migrate content and solution in a later stage after the new 2013 farm has been stabilized.</li>
+<li>Keep solutions who will have an end-of-life in near future without extra effort to migrate it.</li>
+<li>Customer has no functional requirements to adopt 2013 functionality at the current time for all or parts of the solutions, and only requires a platform upgrade.</li>
+</ul>
+<p>Since the site collection administrators can on their own effort start the upgrade of their site, I will cover how to get control of this process by disabling the site collection upgrades. As an farm administrator you can then later re-enable this feature, or perform the migration on behalf of the owners (maybe preferred)-</p>
+<h2>How will a upgraded site collection in 2010-mode appear?</h2>
+<p>When visiting a site collection after the platform has been migrated, pretty much nothing has changed (good!) for the end users, except a light pink (not nice!) bar at the top reminding us that this site should be upgraded.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/09/site-collection-upgrade-1.png"><img class="alignnone size-large wp-image-165" src="{{ site.baseurl }}/assets/2013/12/site-collection-upgrade-1.png?w=625" alt="site collection upgrade 1" width="625" height="297" /></a></p>
+<p>On the site collection upgrade page, an option to "Try a demo upgrade" is available. By default this request is put into a queue, and processed once each night. A copy of the site collection is created, and the site owner will receive an e-mail with the URL. After a fixed time of 30 days, the test site will be deleted.</p>
+<p>The reason why this is running by night, is by my best guess because the source site will throw an error while the creation of the eval site runs. So don't be too tempted to run this timer job manually if the site is in use!</p>
+<p>The messages on the top of the screen will only be visible to the site collection administrators, so the regular users (visitors, members or owners) will not see this at all.</p>
+<h2>Disable the self-service evaluation</h2>
+<p>In the "SharePoint 2013 Management Shell" run the following Powershell script.</p>
+<p>[code language="powershell" highlight="3"]<br />
+$siteUrl = &quot;http://sp2013&quot;; # Change this one!<br />
+$site = Get-SPSite $siteUrl;<br />
+$site.AllowSelfServiceUpgradeEvaluation = $false;<br />
+[/code]</p>
+<p>The option to create a evaluation site is no longer available for the site collection. The next step would be to disable the possibility for the site owners at all to perform the upgrade them self.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/09/site-collection-upgrade-2.png"><img class="alignnone size-full wp-image-166" src="{{ site.baseurl }}/assets/2013/12/site-collection-upgrade-2.png" alt="site collection upgrade 2" width="625" height="298" /></a></p>
+<h2>Disable the self-service site collection upgrade</h2>
+<p>In the "SharePoint 2013 Management Shell" run the following Powershell script.</p>
+<p>[code language="powershell" highlight="3"]<br />
+$siteUrl = &quot;http://sp2013&quot;; # Change this one!<br />
+$site = Get-SPSite $siteUrl;<br />
+$site.AllowSelfServiceUpgrade = $false;<br />
+[/code]</p>
+<p>Now both the options are disabled, and the pink bar at the top of the site is also removed.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/09/site-collection-upgrade-3.png"><img class="alignnone size-full wp-image-167" src="{{ site.baseurl }}/assets/2013/12/site-collection-upgrade-3.png" alt="site collection upgrade 3" width="625" height="272" /></a></p>
+<h2>What if I want to disable this on all site collections?</h2>
+<p>If you want to go all-in, this Powershell script disables both the evaluation site and self-service upgrade for all site collections within a web application:</p>
+<p>[code language="powershell" highlight="3"]<br />
+$webAppUrl = &quot;http://sp2013&quot;; # Change this one!<br />
+Get-SPSite -Limit All -CompatibilityLevel 14 -WebApplication $webAppUrl | % { $_.AllowSelfServiceUpgrade = $false; $_.AllowSelfServiceUpgradeEvaluation = $false; }<br />
+[/code]</p>
+<h2>Summary</h2>
+<p>In this article we have seen how a site collection appear to the end-users after the farm has been migrated from SharePoint 2010 to 2013, and the content databases attached back on. With a few lines of PowerShell the administrator can disable both the ability to evaluate a upgraded site as well as perform the self-service upgrade.</p>

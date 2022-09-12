@@ -1,0 +1,57 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2012-06-05T12:12:16Z"
+meta:
+  _edit_last: "14768874"
+  _ideation_attached_images: "31"
+  _oembed_9c005d3ab5eb3f58c9310d83fe90f8fb: '{{unknown}}'
+  twitter_cards_summary_img_size: a:6:{i:0;i:501;i:1;i:384;i:2;i:3;i:3;s:24:"width="501"
+    height="384"";s:4:"bits";i:8;s:4:"mime";s:9:"image/png";}
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Active Directory
+- ITPRO
+- Profile Pictures
+- SharePoint 2010
+- User Profiles
+title: Exporting profile pictures from SharePoint 2010 to Active Directory
+type: post
+url: /2012/06/05/exporting-profile-pictures-from-sharepoint-2010-to-active-directory/
+---
+<p>Profile pictures can either be stored in Active Directory or in SharePoint. The main reason for placing the profile pictures in SharePoint is for easier management, self-service and maintaining high quality images. Storing the pictures directory in Active Directory gives some restrictions on both physical file size and pixels.</p>
+<h2>Set up delegation in Active Directory</h2>
+<p>Select "Delegate Control" on the top level in Active Directory. Locate the system account performing the synchronization.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image1.png"><img class="alignnone size-medium wp-image-38" title="image1" alt="" src="{{ site.baseurl }}/assets/2012/06/image1.png?w=300" width="300" height="229" /></a></p>
+<p>Choose "Create a custom task to delegate".</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image2.png"><img class="alignnone size-medium wp-image-39" title="image2" alt="" src="{{ site.baseurl }}/assets/2012/06/image2.png?w=300" width="300" height="230" /></a></p>
+<p>Choose "Only the following objects in the folder" and "User objects".</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image3.png"><img class="alignnone size-medium wp-image-31" title="image3" alt="" src="{{ site.baseurl }}/assets/2012/06/image3.png?w=300" width="300" height="229" /></a></p>
+<p>Choose "Property specific" and "Read thumbnailPhoto" and "Write thumbnailPhoto".</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image4.png"><img class="alignnone size-medium wp-image-32" title="image4" alt="" src="{{ site.baseurl }}/assets/2012/06/image4.png?w=300" width="300" height="230" /></a></p>
+<p>Finish the wizard and the delegation should be fine.</p>
+<h2>Set up export in SharePoint User Profile Service</h2>
+<p>Locate the user profile property named “Picture” in the user profile service application in Central Administration.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image6.png"><img class="alignnone size-medium wp-image-34" title="image6" alt="" src="{{ site.baseurl }}/assets/2012/06/image6.png?w=300" width="300" height="27" /></a></p>
+<p>Edit the property and set up an export to the Active Directory field “thumbnailPhoto”.</p>
+<p><a style="font-style:normal;line-height:24px;text-decoration:underline;" href="http://aflyen.files.wordpress.com/2012/06/image7.png"><img class="alignnone size-medium wp-image-35" style="border-color:#bbbbbb;background-color:#eeeeee;" title="image7" alt="" src="{{ site.baseurl }}/assets/2012/06/image7.png?w=300" width="300" height="52" /></a></p>
+<p>This should appear like this after choosing “Add”.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image8.png"><img class="alignnone size-medium wp-image-36" title="image8" alt="" src="{{ site.baseurl }}/assets/2012/06/image8.png?w=300" width="300" height="40" /></a></p>
+<p>Run a full synchronization of the user profiles.</p>
+<p>To verifiy the result we have updated the profile picture of one user, and browsing the status in the MIIS Client show that the picture was successfully exported for the user.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/capture.png"><img class="alignnone size-medium wp-image-49" title="Capture" alt="" src="{{ site.baseurl }}/assets/2012/06/capture.png?w=300" width="300" height="206" /></a></p>
+<h2>Known issues</h2>
+<p>This can give an error message “permission issue” when checking the status in the MIIS client (C:\Program Files\Microsoft Office Servers\14.0\Synchronization Service\UIShell\miisclient.exe).</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/06/image9.png"><img title="image9" alt="" src="{{ site.baseurl }}/assets/2012/06/image9.png?w=300" width="300" height="249" /></a></p>
+<p>This error can appear when the system user running the synchronization haven't been delegated the necessary permissions in Active Directory as described in the beginning of this post.</p>
+<h2>Summary</h2>
+<p>After successfully setting up a synchronization of profile pictures from SharePoint to Active Directory the images can be used throughout the company in other applications like Lync and Outlook.</p>

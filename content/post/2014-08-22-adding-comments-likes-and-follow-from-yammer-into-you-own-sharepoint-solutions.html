@@ -1,0 +1,97 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2014-08-22T07:24:39Z"
+meta:
+  _edit_last: "14768874"
+  _oembed_e12f83a930f0021b007739a3c81c1edb: '{{unknown}}'
+  _publicize_job_id: "12273570015"
+  geo_public: "0"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Integration
+- Microsoft 365
+- SharePoint 2013
+- Yammer
+title: Adding comments, likes and follow from Yammer into you own SharePoint solutions
+type: post
+url: /2014/08/22/adding-comments-likes-and-follow-from-yammer-into-you-own-sharepoint-solutions/
+---
+<p><span lang="en-US">With the Yammer Embed API adding comments, likes and follow content is quite easy to achieve. Using this embed API has a great benefit as it is developed and maintained by Yammer, and will require very little effort to integrate. Features beyond the actions (like and follow) and the feed (comments) can be accomplished with either the REST or JavaScript API, but this will require more effort (reference: </span><a href="https://developer.yammer.com/yammer-sdks/"><span lang="nb-NO">https://developer.yammer.com/yammer-sdks/</span></a><span lang="nb-NO">).</span> Integrating Yammer requires an external JavaScript file to be referenced, one or more placeholders (HTML div-tags) and local JavaScript function call to the API to initialize the integration.</p>
+<p><span style="text-decoration:underline;">Example of a news article based on a Page Layout in SharePoint Online with like, follow and comments from Yammer:</span></p>
+<p><a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-1.png"><img class="alignnone size-large wp-image-310" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-1.png?w=474" alt="yammer-sp2013-onpremises-1" width="474" height="288" /></a></p>
+<h3>Embed API reference</h3>
+<p>[code language="html"]&lt;/p&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://assets.yammer.com/assets/platform_embed.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;<br />
+[/code]</p>
+<h2>Comments Feed</h2>
+<p>Comments can be made for many types of activities, in this example "page". Yammer can maintain the relationship between the article and the feed either automatic by the URL in the browser, or it can be set explicit to ensure that the ID is unique. The first event on this article will trigger Yammer to create a activity page. This page can be enhanced with further metadata like a description and an image.</p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">Example how this is displayed in SharePoint:</span></p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-2.png"><img class="alignnone size-large wp-image-311" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-2.png?w=428" alt="yammer-sp2013-onpremises-2" width="428" height="403" /></a></p>
+<p>  <span style="text-decoration:underline;">Example how this is displayed in the  Yammer feed:</span> <a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-3.png"><img class="alignnone size-large wp-image-312" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-3.png?w=474" alt="yammer-sp2013-onpremises-3" width="474" height="534" /></a></p>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span style="text-decoration:underline;">Example on a activity page in Yammer:</span></p>
+<p><a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-4.png"><img class="alignnone size-large wp-image-313" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-4.png?w=474" alt="yammer-sp2013-onpremises-4" width="474" height="470" /></a></p>
+<h3>Example code</h3>
+<p>[code language="html"]</p>
+<p>&lt;div id=&quot;yammer-page-feed&quot; style=&quot;height:400px;width:500px;&quot;&gt;&lt;/div&gt;</p>
+<p>&lt;script&gt;</p>
+<p>yam.connect.embedFeed({</p>
+<p>container: '#yammer-page-feed'</p>
+<p>, network: 'o365.areflyen.no'</p>
+<p>, feedType: 'open-graph'</p>
+<p>, feedId: ''</p>
+<p>, config: {</p>
+<p>use_sso: true</p>
+<p>, header: false</p>
+<p>, footer: false</p>
+<p>, showOpenGraphPreview: false</p>
+<p>, defaultToCanonical: false</p>
+<p>, hideNetworkName: false</p>
+<p>, promptText: 'Comment on this article'</p>
+<p>}</p>
+<p>, objectProperties: {</p>
+<p>url: ''</p>
+<p>, type: 'page'</p>
+<p>}</p>
+<p>});</p>
+<p>&lt;/script&gt;</p>
+<p>[/code]</p>
+<h2>Like button</h2>
+<p style="margin:0;font-family:Calibri;font-size:11pt;"><span lang="en-US">The practical effect of the "Like" action is limited. The button only shows the state for the current user (Like/Liked) and generates an activity. No total count of likes is available. When a user likes a page, it will also automatically be followed</span><span lang="nb-NO">. </span></p>
+<p><a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-5.png"><img class="alignnone size-large wp-image-314" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-5.png?w=104" alt="yammer-sp2013-onpremises-5" width="104" height="46" /></a></p>
+<h3>Example code</h3>
+<p>[code language="html"]</p>
+<p>&lt;div id=&quot;yammer-like&quot;&gt;&lt;/div&gt;</p>
+<p>&lt;script&gt;</p>
+<p>yam.connect.actionButton({</p>
+<p>container: &quot;#yammer-like&quot;,</p>
+<p>network: &quot;o365.areflyen.no&quot;,</p>
+<p>action: &quot;like&quot;</p>
+<p>});</p>
+<p>&lt;/script&gt;</p>
+<p>[/code]</p>
+<h2>Follow button</h2>
+<p lang="en-US" style="margin:0;font-family:Calibri;font-size:11pt;">When following a page, you will subscribe to the activities on the current page. If you make a comment you will automatically follow the page.</p>
+<p><a href="https://aflyen.files.wordpress.com/2014/08/yammer-sp2013-onpremises-6.png"><img class="alignnone size-large wp-image-315" src="{{ site.baseurl }}/assets/2014/08/yammer-sp2013-onpremises-6.png?w=114" alt="yammer-sp2013-onpremises-6" width="114" height="40" /></a></p>
+<h3>Example code</h3>
+<p>[code language="html"]</p>
+<p>&lt;div id=&quot;yammer-like&quot;&gt;&lt;/div&gt;</p>
+<p>&lt;script&gt;</p>
+<p>yam.connect.actionButton({</p>
+<p>container: &quot;#yammer-follow&quot;,</p>
+<p>network: &quot;o365.areflyen.no&quot;,</p>
+<p>action: &quot;follow&quot;</p>
+<p>});</p>
+<p>&lt;/script&gt;</p>
+<p>[/code]</p>
+<h2>Summary</h2>
+<p>Yammer gives us easy to use API to make the switch from SharePoint Social to Yammer possible. Even if these examples are demonstrated in SharePoint Online, the same solution can be applied to On-Premises. Gaining the best user experience On-Premises will be by implementing a Single Sign-On (SSO) solution between you local network and Yammer. <em>Disclaimer: Both SharePoint and Yammer is in continuous development, and the API and user interface shown in the screenshots have changed from the time this post was written.</em></p>

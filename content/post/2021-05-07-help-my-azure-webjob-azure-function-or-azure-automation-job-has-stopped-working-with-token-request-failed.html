@@ -1,0 +1,109 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- Azure
+- Microsoft 365
+date: "2021-05-07T19:36:05Z"
+meta:
+  _last_editor_used_jetpack: block-editor
+  _publicize_job_id: "58086473978"
+  _thumbnail_id: "1055"
+  timeline_notification: "1620408969"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Authentication
+- Azure Active Directory
+- Azure App Registration
+- Azure Automation
+- Azure Functions
+- Azure WebJobs
+- PnP Framework
+- PnP PowerShell
+- SharePoint Online
+title: Help! My Azure WebJob, Azure Function or Azure Automation job has stopped working
+  with "Token request failed"
+type: post
+url: /2021/05/07/help-my-azure-webjob-azure-function-or-azure-automation-job-has-stopped-working-with-token-request-failed/
+---
+<p><!-- wp:paragraph --></p>
+<p>I work a lot with automation of tasks in Microsoft 365 and Azure, and many of them involve connecting to other Microsoft 365 services like SharePoint Online. Years back Azure WebJob was the only viable solution for running automated .NET and PowerShell based tasks, but over the years this has moved along to Azure Functions, Azure Automation or even other solutions like Logic Apps and Power Automate. Automation jobs can be running spotless for years in Azure - but everything great has to come to an end ;-)</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":1055,"sizeSlug":"large","linkDestination":"media"} --></p>
+{{< figure src="/assets/2021/05/automation.png" width="100%" >}}
+<p><!-- /wp:image --></p>
+<p><!-- wp:heading --></p>
+<h2>Example of error messages</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>From a WebJob (C#):</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>&#091;05/07/2021 15:35:01 &gt; 25cd0d: ERR ] Unhandled Exception: Microsoft.IdentityModel.SecurityTokenService.RequestFailedException: Token request failed. ---&gt; System.Net.WebException: The remote server returned an error: (401) Unauthorized.
+...
+&#091;05/07/2021 15:35:01 &gt; 25cd0d: SYS INFO] Status changed to Failed
+&#091;05/07/2021 15:35:01 &gt; 25cd0d: SYS ERR ] Job failed due to exit code -532462766</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>From a PowerShell script:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Connect-PnPOnline : Token request failed.</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:heading --></p>
+<h2>Common issues and easy fixes</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>There are a number of reasons why you "suddenly" can get into trouble with authentication on an app that have been running as normal for a long time. It can be a bit hard to understand where to start, so this is my recommended order to troubleshoot:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list {"ordered":true} --></p>
+<ol>
+<li>Check if the ClientSecret or certificate for application registered in Azure AD has expired</li>
+<li>Check if the permissions for the app has been removed/changed</li>
+<li>Set up a local dev environment to check if you can reproduce the error locally to get more detailed error messages</li>
+<li>At you local dev computer set up a tool for inspecting the network traffic to and from you app like Fiddler (<a href="https://www.telerik.com/fiddler">Fiddler| Web Debugging Proxy and Troubleshooting Solutions (telerik.com)</a>). If you suspect you solution to not send the request to the remote API correctly any more, you probably must move ahead with a bit mot in depth approach to locate the error as further described. </li>
+</ol>
+<p><!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2>Still no luck?</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>What if the solution runs just fine on my local dev computer and only fails in Azure? Often this can be the case, and the reason can be a tricky combination of outdated packages, modules or frameworks no longer supported by the runtime host or the API's in use.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><span style="text-decoration:underline;">PowerShell</span>:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>Make sure your modules are updated</li>
+<li>For runbooks in Azure Automation the modules are centralized managed per automation account, so remember to update them from time to time</li>
+<li>Specific for SharePoint Online make sure to update to the latest versions of PnP.PowerShell and make sure you are up to speed with the change from "<a rel="noreferrer noopener" href="https://www.powershellgallery.com/packages/SharePointPnPPowerShellOnline" target="_blank">SharePointPnPPowerShellOnline</a>" to the new module "<a rel="noreferrer noopener" href="https://www.powershellgallery.com/packages/PnP.PowerShell" target="_blank">PnP.PowerShell"</a> (<a href="https://pnp.github.io/powershell/articles/upgrading.html">Upgrading from the Legacy version of PnP PowerShell | PnP PowerShell</a>)</li>
+<li>Switch over to PowerShell Core if there is nothing holding you back (<a href="https://docs.microsoft.com/en-us/powershell/scripting/install/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.1">Migrating from Windows PowerShell 5.1 to PowerShell 7 - PowerShell | Microsoft Docs</a>)</li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:paragraph --></p>
+<p><span style="text-decoration:underline;">.NET Framework / .NET Core</span></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>Make sure all you Nuget packages are up to date. Sometimes (always?) updating large amount of packages will break your code and bring some extra work. Checking changelogs for breaking changes can make this easier, or at least update to the latest version before the changes</li>
+<li>Check your .NET Framework or .NET Core runtime version. Even if this should be supported by you Azure App Service or Azure Function thing change. Update your project to the latest version of the runtime that should be supported.  In one of my cases it just involved switching to the lastest .NET Runtime to get back up and running after hours of troubleshooting.</li>
+<li>Make sure you find and replace deprecated Nuget packages. As with PowerShell and SharePoint Online the same case is to make sure to know the change from "<a rel="noreferrer noopener" href="https://www.nuget.org/packages/OfficeDevPnPCore16/" target="_blank">OfficeDevPnPCore16</a>" to "<a rel="noreferrer noopener" href="https://www.nuget.org/packages/SharePointPnPCoreOnline" target="_blank">SharePointPnPCoreOnline</a>". But even this is leagacy know, and you should try to move ahead to "<a rel="noreferrer noopener" href="https://www.nuget.org/packages/PnP.Framework/" target="_blank">PnP.Framework</a>" with support for .NET Core apps.</li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2>Summary</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Locating errors in automation tasks running in Azure can either be a quick fix or in worst case taking days to figure out and fix. Don't underestimate the need to do regular updates of running jobs even if they still work flawlessly. In the long run you will most likely save money and avoid downtime :-)</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><em>Image credits: stockvault.net</em></p>
+<p><!-- /wp:paragraph --></p>

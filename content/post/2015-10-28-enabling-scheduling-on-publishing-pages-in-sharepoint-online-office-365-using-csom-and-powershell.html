@@ -1,0 +1,44 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2015-10-28T10:03:26Z"
+meta:
+  _edit_last: "14768874"
+  _oembed_5c4c441336176008c049b77151846512: '{{unknown}}'
+  _oembed_7de489a5e4ba836f72cfefe9de9e8235: '{{unknown}}'
+  _oembed_85200937ae63536414d93f9043c079a6: '{{unknown}}'
+  _oembed_8f6c34c70e2621f2d6f1d48fc5dfbde7: '{{unknown}}'
+  _oembed_9f9dba090c015dfdf89b692b82c32084: '{{unknown}}'
+  _oembed_e26d753575c67814e4b8bb4e9de704f3: '{{unknown}}'
+  _publicize_job_id: "16286649593"
+  geo_public: "0"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Development
+- Microsoft 365
+- PowerShell
+- Publishing
+- SharePoint Online
+title: Enabling scheduling on Publishing Pages in SharePoint Online (Office 365) using
+  CSOM and PowerShell
+type: post
+url: /2015/10/28/enabling-scheduling-on-publishing-pages-in-sharepoint-online-office-365-using-csom-and-powershell/
+---
+<p>Scheduling is easily enabled through the web interface when configuring the "Pages" library, but when deploying solutions using PowerShell, this must be automated as part of the configuration. Unfortunately, as many other sources also state, this is not directly supported in the Client Side API (CSOM).</p>
+<p>The solution is to manually set up the Pages library the same way Microsoft does by adding two event receivers, changing some columns from hidden to visible and adding them to the default view.</p>
+<p><em>Note: This example uses commands from the <a href="https://github.com/OfficeDev/PnP-PowerShell">Office Dev PnP PowerShell</a> library, ex. "Get-SPOContext". I recommend using this library for working this PowerShell and SharePoint (both Online and On-Premises).</em></p>
+<p><span style="text-decoration:underline;">Function to enable Scheduling on a library on a given web site:</span></p>
+<p>https://gist.github.com/aflyen/f779232ec529d45c524f</p>
+<p><span style="text-decoration:underline;">On line 11 an additional function is needed to create the parameters for the "Load" method:</span></p>
+<p>https://gist.github.com/aflyen/4a098b69b9faa43fd1a3</p>
+<p><span style="text-decoration:underline;">How to enable scheduling:</span></p>
+<p>https://gist.github.com/aflyen/9fe012e018aba224f507</p>

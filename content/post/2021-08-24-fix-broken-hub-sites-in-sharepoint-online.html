@@ -1,0 +1,83 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- Microsoft 365
+- SharePoint
+date: "2021-08-24T18:02:14Z"
+meta:
+  _last_editor_used_jetpack: block-editor
+  _publicize_job_id: "62226372786"
+  _thumbnail_id: "1203"
+  timeline_notification: "1629820937"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Intranet
+- PowerShell
+- SharePoint Online
+title: Fix broken Hub Sites in SharePoint Online
+type: post
+url: /2021/08/24/fix-broken-hub-sites-in-sharepoint-online/
+---
+<p><!-- wp:image {"id":1200,"sizeSlug":"large","linkDestination":"media"} --></p>
+{{< figure src="/assets/2021/08/image.png" width="100%" >}}
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>If you have been an early adopter of the Hub Site functionality (https://docs.microsoft.com/en-us/sharepoint/planning-hub-sites) in SharePoint Online, you might also get stuck in some trouble with Hub Sites not showing up in SharePoint Admin Center or being unable to register or unregister these sites. Fortunately it is quite easy to clean up broken hub sites and get back on track.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Example of error message from PowerShell registering a hub site (Register-SPOHubSite):</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>The list item could not be added or updated because duplicate values were found in the following field(s) om the list: &#091;HubSite, Site]</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>So it tells us something like there is already an registered hub site for that URL but thing are messed up and now it doesn't work. Usually you run into these issues right before launching a new intranet or other portals for you company, so this can be a bit stressful. </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2>Solution: Clean up old hub sites</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Using the <a href="https://docs.microsoft.com/en-us/powershell/sharepoint/sharepoint-pnp/sharepoint-pnp-cmdlets?view=sharepoint-ps" target="_blank" rel="noreferrer noopener">PnP PowerShell</a> module as an SharePoint administrator run this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Connect-PnPOnline -Url https://TENANTNAME-my.sharepoint.com
+Get-PnPListItem -List HubSites
+</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>You will get a result like this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Id    Title                                              GUID
+--    -----                                              ----
+6     Intranet                                           e1a88177-fe1a-4c32-9109-d4ada14469b8
+7     Finance                                            a862d25f-56db-48e3-9641-7313fac36855
+8     Operations                                         b584407b-aebd-499f-9ee7-f3f864574ca6</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>Remove the Hub Site(s) that doesn't work like this (change "Identity" with the correct value):</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Remove-PnPListItem -List HubSites -Identity 8 -Recycle</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>You might get an access denied, this needs to be fixed by assigning yourself as a site collection administrator using the <a href="https://docs.microsoft.com/en-us/powershell/sharepoint/sharepoint-online/connect-sharepoint-online?view=sharepoint-ps" target="_blank" rel="noreferrer noopener">SharePoint Online PowerShell module</a>:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Connect-SPOService -Url https://TENANTNAME-admin.sharepoint.com
+Set-SPOUser -Site https://TENANTNAME-my.sharepoint.com -IsSiteCollectionAdmin:$true -LoginName USERNAME@TENANTNAME.onmicrosoft.com</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:heading --></p>
+<h2>Summary</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>By cleaning up the hidden list "HubSites" with PowerShell you should be able to get your Hub Sites back on track. Note that is is recommended from Microsoft to wait 24 hours before re-registering a broken Hub Site to allow the system to clean up and be able to get it right the next time.</p>
+<p><!-- /wp:paragraph --></p>

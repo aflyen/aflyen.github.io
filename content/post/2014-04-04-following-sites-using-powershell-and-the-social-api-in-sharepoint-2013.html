@@ -1,0 +1,65 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- SharePoint
+date: "2014-04-04T14:45:36Z"
+meta:
+  _edit_last: "14768874"
+  _oembed_00ca397cbcad36de30c788421437df6a: '{{unknown}}'
+  _oembed_3be760191cff36efc5e661d317ee8a4e: '{{unknown}}'
+  _oembed_7af6e7b365dd2c3dc292ad5297dd2421: '{{unknown}}'
+  _oembed_07e5fa808b9cd7ef10878c5faa609b70: '{{unknown}}'
+  _oembed_588c64ff50a995cc6cc7bd6f2085b601: '{{unknown}}'
+  _oembed_668e806463e79b8ab25a76b63fe0db42: '{{unknown}}'
+  _oembed_252861e3cbabd3d8f7d4178c0de65198: '{{unknown}}'
+  _oembed_ce92161ab151b466398c78246b17e6ac: '{{unknown}}'
+  _oembed_f905baaadc9f9b7412e9339efb92bc2d: '{{unknown}}'
+  _publicize_pending: "1"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- MySite
+- PowerShell
+- SharePoint 2013
+- Social
+- User Profile
+title: Following sites using PowerShell and the Social API in SharePoint 2013
+type: post
+url: /2014/04/04/following-sites-using-powershell-and-the-social-api-in-sharepoint-2013/
+---
+<p>In SharePoint 2013 you can now as a end-user choose to follow sites to both subscribe to their newsfeed, but also to maintain a list of favorites under "Sites" in your MySite. From the administrator point of view, there are no features to push these sites to your users, but with the API's available, this doesn't require much effort to achieve.</p>
+<h2>Case</h2>
+<p>A user story described that one site in the solution was mandatory to follow since all important company news should be published here. It wasn't good enough to trust that end-users chose to follow this site, so a solution to enforce this policy was needed. This is an excellent way to turn some of the traditional news articles to a modern social news item, and showing the users that the company itself also adopts the social strategy.</p>
+<h2>Solution</h2>
+<p>For this I created a PowerShell script that is scheduled to run each night. The script iterates through all the User Profiles in MySites, and checks if the user subscribes to the mandatory site, and if they don't the site will be followed for them. If you try to be smart an unfollow the site, wait until midnight and you are back in! :-)</p>
+<p>[code language="powershell"]<br />
+# Get UserProfile Manager<br />
+$site = Get-SPSite -Limit 1<br />
+$serviceContext = Get-SPServiceContext($site)<br />
+$profileManager = new-object Microsoft.Office.Server.UserProfiles.UserProfileManager($serviceContext)<br />
+$profiles = $profileManager.GetEnumerator()</p>
+<p># Iterates through all the user profiles<br />
+foreach ($profile in $profiles)<br />
+{<br />
+    $followingManager = New-Object Microsoft.Office.Server.Social.SPSocialFollowingManager($profile)</p>
+<p>    # Create a new social actor object for the site to follow<br />
+    $socialActor = New-Object Microsoft.Office.Server.Social.SPSocialActorInfo<br />
+    $socialActor.ContentUri = &quot;http://intranet/sites/important-news-from-corp&quot; # REPLACE THIS WITH YOUR SITE<br />
+    $socialActor.ActorType = [Microsoft.Office.Server.Social.SPSocialActorType]::Site</p>
+<p>    # Follow the mandatory site<br />
+    if (!$followingManager.IsFollowed($socialActor))<br />
+    {<br />
+        $followingManager.Follow($socialActor)<br />
+    }<br />
+}<br />
+[/code]</p>
+<h2>Summary</h2>
+<p>Using PowerShell and the SharePoint Social API enables us to create solutions that implements business policies like this one requiring us to follow a spesific site. As an example this can be extended in other purposes like helping users to follow their organization site.</p>
+<p><em>Disclaimer: The script presented here is not intended for production purpose, and should only be treated as an example.</em></p>

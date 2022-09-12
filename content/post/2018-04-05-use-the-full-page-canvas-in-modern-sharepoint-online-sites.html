@@ -1,0 +1,51 @@
+---
+author:
+  display_name: Are Flyen
+  email: aflyen@gmail.com
+  first_name: Are
+  last_name: Flyen
+  login: aflyen
+categories:
+- Microsoft 365
+- SharePoint
+date: "2018-04-05T20:46:05Z"
+excerpt: SharePoint Framework Extention to enable the page to use the full page canvas.
+  The header at the top of the page with title, navigation and site icon is hidden
+  when this app is enabled at the site.
+meta:
+  _last_editor_used_jetpack: block-editor
+  _publicize_job_id: "16498495678"
+  _rest_api_client_id: "-1"
+  _rest_api_published: "1"
+  _thumbnail_id: "567"
+  timeline_notification: "1522953966"
+parent_id: "0"
+password: ""
+published: true
+status: publish
+tags:
+- Development
+- React
+- SharePoint Framework
+- SPFx
+- TypeScript
+title: Use the Full Page Canvas in modern SharePoint Online sites
+type: post
+url: /2018/04/05/use-the-full-page-canvas-in-modern-sharepoint-online-sites/
+---
+<p>A common requirement in the past with classic SharePoint solutions was to create start pages utilizing the full canvas of the page. In classic SharePoint this could easily be accomplished by adding a few lines of CSS in a Page Layout.</p>
+<p>For modern pages we don't have Page Layouts anymore, and to accomplish the same result a SPFx Extention can be used. This is more spesific a Application Customizer registering one simple CSS override in the top placeholder of the page.</p>
+<p>This solution will work with both Communication and Team Sites, but is recommended to be used with Communication Sites. This template will give us full control of the page canvas below the Office 365 suite bar. Using it on a Team Site will not make much sense as we have a different layout with a left navigation bar etc.</p>
+<h3><a id="user-content-common-usage-scenarios" class="anchor" href="https://github.com/aflyen/spfx-extension-fullpagecanvas#common-usage-scenarios"></a>Common usage scenarios</h3>
+<ul>
+<li>Intranet front page</li>
+<li>Global start page</li>
+<li>Full page apps hosted in SharePoint Online</li>
+</ul>
+<h3>Example of communication site before the app is added</h3>
+{{< figure src="/assets/2018/04/example-communicationsite-before.png" width="100%" >}}
+<h3>Example of communication site after the app is added</h3>
+{{< figure src="/assets/2018/04/example-communicationsite-after.png" width="100%" >}}
+<h3>The solution</h3>
+<p>I have created an example solution for this that can be found at Github:</p>
+<p><a href="https://github.com/aflyen/spfx-extension-fullpagecanvas" target="_blank" rel="noopener">https://github.com/aflyen/spfx-extension-fullpagecanvas</a></p>
