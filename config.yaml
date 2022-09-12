@@ -3,3 +3,16 @@ disablePathToLower: true
 languageCode: en-us
 title: Are Flyen
 theme: hyde
+googleAnalytics: G-V7W65Q4G9C
+params:
+  description: "IT Consultant | Solution Architect and Developer | Microsoft 365 and Azure | Collaboration Expert"
+Menus:
+  main:
+    - Name: "About"
+      URL: "/about"
+    - Name: "LinkedIn"
+      URL: "https://linkedin.com/in/aflyen"
+    - Name: "Github"
+      URL: "https://github.com/aflyen"
+    - Name: "Twitter"
+      URL: "https://twitter.com/aflyen"
