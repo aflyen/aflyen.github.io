@@ -1,0 +1,85 @@
+---
+layout: feedback
+title: kristjan - 2020-04-19 17:38:50
+date: 2020-04-19 17:38:50.000000000 +02:00
+type: feedback
+parent_id: '10'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _feedback_extra_fields: a:0:{}
+  _feedback_email: "a:2:{s:2:\"to\";a:1:{i:0;s:20:\"\"are\" <are@flyen.no>\";}s:7:\"message\";s:1336:\"<!doctype
+    html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<body>\n\n<b>Name:</b> kristjan<br
+    /><br /><b>Email:</b> sameone@gmail.com<br /><br /><b>Website:</b> <br /><br /><b>Comment:</b>
+    Hello<br />\r\n<br />\r\nI saw you block and i hope you can help me.<br />\r\n<br
+    />\r\nI need script to add AD group to SP group ??<br />\r\n<br />\r\n<br />\r\nI
+    look that, but does not work for group. With this I can add users but not GROUP
+    !!<br />\r\n<br />\r\nFunction AddADGroup($SPGroupName,$ADGroupName)<br />\r\n{
+    \   <br />\r\n    $SiteCollection = \"http://yoursitcollectionurl\"<br />\r\n
+    \   $site = Get-SPWeb $SiteCollection<br />\r\n    $site.EnsureUser($ADGroupName)<br
+    />\r\n    $ADGroupSPFriendly = $site | Get-SPUser $ADGroupName<br />\r\n    Set-SPUser
+    -Identity $ADGroupSPFriendly -Web $SiteCollection -Group $SPGroupName<br />\r\n
+    \   Write-Host $ADGroupName<br />\r\n    Write-Host $ADGroupSPFriendly<br />\r\n
+    \   Write-Host \"Added the ADGroup\" + $ADGroupName + \"Sucessfully to the SPGroup\"
+    + $SPGroupName<br />\r\n<br />\r\n    $site.Dispose()<br />\r\n}<br />\r\n<br
+    />\r\n#To Execute this function <br />\r\n<br />\r\nAddADGroup \"Sharepointgroup\"
+    \"Domain\\ADGroup\"<br /><br /><br /><hr />Time: April 19, 2020 at 17:38<br />IP
+    Address: 86.58.83.179<br />Contact Form URL: https://blog.areflyen.no/contact/<br
+    /><p>Sent by an unverified visitor to your site.</p>\n\n</body>\n</html>\";}"
+author: 
+permalink: "/"
+---
+<p>Hello</p>
+<p>I saw you block and i hope you can help me.</p>
+<p>I need script to add AD group to SP group ??</p>
+<p>I look that, but does not work for group. With this I can add users but not GROUP !!</p>
+<p>Function AddADGroup($SPGroupName,$ADGroupName)<br />
+{<br />
+    $SiteCollection = "http://yoursitcollectionurl"<br />
+    $site = Get-SPWeb $SiteCollection<br />
+    $site.EnsureUser($ADGroupName)<br />
+    $ADGroupSPFriendly = $site | Get-SPUser $ADGroupName<br />
+    Set-SPUser -Identity $ADGroupSPFriendly -Web $SiteCollection -Group $SPGroupName<br />
+    Write-Host $ADGroupName<br />
+    Write-Host $ADGroupSPFriendly<br />
+    Write-Host "Added the ADGroup" + $ADGroupName + "Sucessfully to the SPGroup" + $SPGroupName</p>
+<p>    $site.Dispose()<br />
+}</p>
+<p>#To Execute this function </p>
+<p>AddADGroup "Sharepointgroup" "Domain\ADGroup"<br />
+<!--more--><br />
+AUTHOR: kristjan<br />
+AUTHOR EMAIL: sameone@gmail.com<br />
+AUTHOR URL:<br />
+SUBJECT: [Are Flyen's Blog] Contact<br />
+IP: 86.58.83.179<br />
+Array<br />
+(<br />
+    [1_Name] =&gt; kristjan<br />
+    [2_Email] =&gt; sameone@gmail.com<br />
+    [3_Website] =&gt;<br />
+    [4_Comment] =&gt; Hello</p>
+<p>I saw you block and i hope you can help me.</p>
+<p>I need script to add AD group to SP group ??</p>
+<p>I look that, but does not work for group. With this I can add users but not GROUP !!</p>
+<p>Function AddADGroup($SPGroupName,$ADGroupName)<br />
+{<br />
+    $SiteCollection = "http://yoursitcollectionurl"<br />
+    $site = Get-SPWeb $SiteCollection<br />
+    $site.EnsureUser($ADGroupName)<br />
+    $ADGroupSPFriendly = $site | Get-SPUser $ADGroupName<br />
+    Set-SPUser -Identity $ADGroupSPFriendly -Web $SiteCollection -Group $SPGroupName<br />
+    Write-Host $ADGroupName<br />
+    Write-Host $ADGroupSPFriendly<br />
+    Write-Host "Added the ADGroup" + $ADGroupName + "Sucessfully to the SPGroup" + $SPGroupName</p>
+<p>    $site.Dispose()<br />
+}</p>
+<p>#To Execute this function </p>
+<p>AddADGroup "Sharepointgroup" "Domain\ADGroup"<br />
+    [entry_title] =&gt; Contact<br />
+    [entry_permalink] =&gt; https://blog.areflyen.no/contact/<br />
+    [feedback_id] =&gt; 91451d5520d619afa0d066b013924a42<br />
+)</p>

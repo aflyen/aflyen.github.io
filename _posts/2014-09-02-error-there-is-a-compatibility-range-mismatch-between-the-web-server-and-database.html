@@ -1,0 +1,37 @@
+---
+layout: post
+title: 'Error: There is a compatibility range mismatch between the Web server and
+  database'
+date: 2014-09-02 13:41:17.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- SharePoint 2013
+- Troubleshooting
+- Upgrade
+meta:
+  _oembed_57af75db967c1ec575089e552b1ed845: "{{unknown}}"
+  _edit_last: '14768874'
+  geo_public: '0'
+  _publicize_pending: '1'
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2014/09/02/error-there-is-a-compatibility-range-mismatch-between-the-web-server-and-database/"
+---
+<p><em>There is a compatibility range mismatch between the Web server and database "SP2013_Content_InsertDatabaseNameHere", and connections to the data have been blocked to due to this incompatibility. This can happen when a content database has not been upgraded to be within the compatibility range of the Web server, or if the database has been upgraded to a higher level than the web server. The Web server and the database must be upgraded to the same version and build level to return to compatibility range.</em></p>
+<p><a href="https://aflyen.files.wordpress.com/2014/09/error-after-sp1-upgrade1.png"><img class="alignnone size-large wp-image-324" src="{{ site.baseurl }}/assets/2014/09/error-after-sp1-upgrade1.png?w=474" alt="error-after-sp1-upgrade" width="474" height="329" /></a></p>
+<p>&nbsp;</p>
+<h2>Cause</h2>
+<p>Discovered the error the first time I tried to upgrade a sandboxed solution within the selected database using PowerShell after upgrading to SP1. The error message appears the script output, Event Viewer and ULS. All databases had "No action required" as upgrade status, so this wasn't the problem in my case. Hidden behind this error it appeared that insufficient database permissions was the cause.</p>
+<h2>Solution</h2>
+<p>It turned out that the logged in users' permissions for this database had been lost after upgrading SharePoint 2013 from March PU to SP1 for some reason.</p>
+<p>Fixed this was easy by adding the "SPDataAccess" role back to the user for the content database that was failing.</p>

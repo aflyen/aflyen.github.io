@@ -1,0 +1,82 @@
+---
+layout: post
+title: Preparing a new server with Windows Server 2012 for development and testing
+date: 2013-04-10 22:16:37.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- Development environment
+- ITPRO
+- Windows Server 2012
+meta:
+  _edit_last: '14768874'
+  _publicize_pending: '1'
+  _oembed_58248a11d4cbde30c2654666ef1c1cdb: "{{unknown}}"
+  _oembed_30152ec242d848a2fa93bc4f33a629cf: "{{unknown}}"
+  _oembed_17bbd5dc18780d096c6e55aad8f8d818: "{{unknown}}"
+  _oembed_a63d3c74af78fb7c99d75b072acafe23: "{{unknown}}"
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2013/04/10/preparing-a-new-server-with-windows-server-2012-for-development-and-testing/"
+---
+<p><span style="line-height:1.714285714;font-size:1rem;">As a SharePoint developer, I am quite often required to set up new servers for development and testing. Every time I set up a new server, I do a basic configuration before I start installing the specific software I need (SQL Server, SharePoint, Visual Studio etc.). The purpose of doing these preparations is to enable a more desktop like user experience, and remove unnecessary interruptions in the day-to-day usage.</span></p>
+<p>This guide is based on a Windows Server 2012 Standard GUI installation.</p>
+<h2>Basic settings in Server Manager</h2>
+<p>After the initial installation and first time password setup is complete, continue in the <b>Server Manager</b> by setting these basic settings to get started. Select <strong>Local Server</strong> in the left side menu.<strong><br />
+</strong></p>
+<ol>
+<li>Change computer name (postpone reboot to later)</li>
+<li>Enable automatic windows update (and start first time check)</li>
+<li>Disable IE Enhanced Security (for all users)</li>
+<li>Change timezone</li>
+</ol>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/server-manager-overview1.png"><img class="alignnone size-full wp-image-153" alt="server-manager-overview" src="{{ site.baseurl }}/assets/2013/04/server-manager-overview1.png" width="625" height="168" /></a></p>
+<h2>Add "Desktop Experience" role</h2>
+<p>This feature adds some settings and software to make the server feel more like a standard Windows 8 end-user computer.</p>
+<p>In the <b>Server Manager</b> select <b>Manage</b> and <b>Add Roles and Features.</b></p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/server-maanager-add-role.png"><img alt="server-maanager-add-role" src="{{ site.baseurl }}/assets/2013/04/server-maanager-add-role.png" width="361" height="194" /></a></p>
+<p>In the wizard, select <b>Next</b> until you reach the <b>Feature</b> step. Locate <b>User interfaces and infrastructure</b> and expand it. Check the option for <b>Desktop Experience</b>.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/server-manager-desktop-expereince.png"><img alt="server-manager-desktop-expereince" src="{{ site.baseurl }}/assets/2013/04/server-manager-desktop-expereince.png" width="559" height="346" /></a></p>
+<h2>Enable remote desktop connections</h2>
+<p>All my installation are mostly on virtual hosts, so getting Remote Desktop up and running is a much better experience than the build in console in for example Hyper-V.</p>
+<p>Under <b>Settings</b> (search for the words)<b>,</b> select <b>Allow remote access to your computer</b>.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/remote-desktop-allow-users.png"><img class="alignnone size-full wp-image-142" alt="remote-desktop-allow-users" src="{{ site.baseurl }}/assets/2013/04/remote-desktop-allow-users.png" width="473" height="304" /></a></p>
+<p>Then select <b>Allow remote connections to the computer</b>.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/remote-desktop-allow-users2.png"><img class="alignnone size-full wp-image-143" alt="remote-desktop-allow-users2" src="{{ site.baseurl }}/assets/2013/04/remote-desktop-allow-users2.png" width="391" height="167" /></a></p>
+<h2>Disable password expiry</h2>
+<p>Disabling these policies is not a good idea in general, but in a development environment, this is necessary to avoid hassle with Windows nagging about setting new passwords from time to time. I always use a general password for these environments, and want to avoid it being changed somewhere.</p>
+<p>Open <b>Group Policy Management</b> (just search for it). Right click on <b>Default Domain Policy</b> and select <b>Edit</b>.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/disable-password-policy-1.png"><img alt="disable-password-policy-1" src="{{ site.baseurl }}/assets/2013/04/disable-password-policy-1.png" width="416" height="315" /></a></p>
+<p>Open the path <b>Computer Configuration -&gt; Policies -&gt; Windows Settings -&gt; Security Settings -&gt; Account Policies -&gt; Password Policy.</b></p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/disable-password-policy-2.png"><img alt="disable-password-policy-2" src="{{ site.baseurl }}/assets/2013/04/disable-password-policy-2.png" width="625" height="257" /></a></p>
+<p>Set <b>Enforce password history</b> and <b>Maximum password age</b> to <b>0</b>. Disable the <b>Password must meet complexity requirements</b>.</p>
+<h2>Disable shutdown event tracker</h2>
+<p>The shutdown event tracker is fine for a server, but is unnecessary on a development machine.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/disable-shutdown-event-tracker-3.png"><img class="alignnone size-full wp-image-148" alt="disable-shutdown-event-tracker-3" src="{{ site.baseurl }}/assets/2013/04/disable-shutdown-event-tracker-3.png" width="413" height="284" /></a></p>
+<p>Open <b>Group Policy Management</b> (just search for it). Right click on <b>Default Domain Policy</b> and select <b>Edit</b>.</p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/disable-shutdown-event-tracker-1.png"><img class="alignnone size-full wp-image-146" alt="disable-shutdown-event-tracker-1" src="{{ site.baseurl }}/assets/2013/04/disable-shutdown-event-tracker-1.png" width="416" height="315" /></a></p>
+<p>Open the path <b>Computer Configuration -&gt; Policies -&gt; Administrative Templates -&gt; System</b>. Select <b>Display Shutdown Event Tracker</b>.</p>
+<p>Select <b>Disabled</b> to avoid this dialogue to appear the next time you shut down the server.</p>
+<h2>Enable execution policy for PowerShell</h2>
+<p>By default PowerShell script are disabled from being executed, and a policy setting must be set.</p>
+<p>Open a <b>PowerShell Console (as Administrator)</b> and type <b>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned</b></p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/powershell-set-executionpolicy.png"><img class="alignnone size-full wp-image-150" alt="powershell-set-executionpolicy" src="{{ site.baseurl }}/assets/2013/04/powershell-set-executionpolicy.png" width="625" height="165" /></a></p>
+<p>Also just as a remined make sure that script you try to execute aren't blocked. Check this by right clicking the file, select <b>Settings</b> and check if the button <b>Unblock</b> appear in the bottom right of the dialoge.</p>
+<h2>Disable Loopback check with PowerShell</h2>
+<p>This is mainly for servers that will be used for hosting web applications with IIS. For more details see: <a href="http://support.microsoft.com/kb/896861">http://support.microsoft.com/kb/896861</a></p>
+<p>Open a <b>PowerShell Console (as Administrator)</b> and type <b>New-ItemProperty HKLM:\System\CurrentControlSet\Control\Lsa -Name "DisableLoopbackCheck" -Value "1" -PropertyType dword</b></p>
+<p><a href="http://aflyen.files.wordpress.com/2013/04/powershell-disable-loopback-check.png"><img class="alignnone size-full wp-image-149" alt="powershell-disable-loopback-check" src="{{ site.baseurl }}/assets/2013/04/powershell-disable-loopback-check.png" width="625" height="146" /></a></p>
+<p>A reboot will be necessary for this setting to take effect.</p>
+<h2>Summary</h2>
+<p>In this article a step-by-step guidance for preparing a Windows Server 2012 for development and testing use were presented. This enables a better user experience when working in a server environment on the day to day basis.</p>
+<p>Just as a disclaimer, these steps reduce the general security level normally required on a server, and should only be used for development and testing purposes.</p>
+<p>Any tips that could be included in this preparation guide, are welcome!</p>

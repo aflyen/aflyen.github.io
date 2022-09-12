@@ -1,0 +1,130 @@
+---
+layout: post
+title: Redirect your sites in SharePoint to a new site collection
+date: 2022-04-20 08:59:54.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Microsoft 365
+- SharePoint
+tags:
+- Intranet
+- SharePoint Online
+meta:
+  _publicize_job_id: '71596990846'
+  timeline_notification: '1650437997'
+  _thumbnail_id: '1323'
+  _last_editor_used_jetpack: block-editor
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2022/04/20/redirect-your-sites-in-sharepoint-to-a-new-site-collection/"
+---
+<p><!-- wp:heading --></p>
+<h2>Background</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>During a intranet migration there was a requirement to move the intranet from the root site to a site collection under "/sites". When moving site collections around in the SharePoint Admin Center a redirect will automatically be added to the old URL, so in many cases this is sufficient.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>In this case we could use this approach, as you only can swap at not move away from the root site.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2>Solution</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>I modern sites the solution to add a redirect to the root site actually was much easier than one would anticipate. </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list {"ordered":true} --></p>
+<ol>
+<li>Go to the site you want to redirect away from, and from the front page select <strong>New</strong> and <strong>News link</strong>
+<ol>
+<li><img class="wp-image-1313" style="width:300px;" src="{{ site.baseurl }}/assets/2022/04/image-1.png" alt="" /></li>
+</ol>
+</li>
+<li>Add the full URL to the site and a title like <strong>Redirect</strong>
+<ol>
+<li><img class="wp-image-1315" style="width:300px;" src="{{ site.baseurl }}/assets/2022/04/image-3.png" alt="" /></li>
+</ol>
+</li>
+<li>Go to the Site Pages library at /SitesPages, ex. https://contoso.sharepoint.com/sites/news/SitePages</li>
+<li>Mark the newly created News link as the homepage of the site by selecting <strong>...</strong> and <strong>Make homepage</strong></li>
+</ol>
+<p><!-- /wp:list --></p>
+<p><!-- wp:image {"id":1317,"sizeSlug":"large","linkDestination":"media"} --></p>
+<figure class="wp-block-image size-large"><a href="https://aflyen.files.wordpress.com/2022/04/image-4.png"><img src="{{ site.baseurl }}/assets/2022/04/image-4.png?w=286" alt="" class="wp-image-1317" /></a></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>When you now visit this site you will be redirected to the new site specified in the redirect link.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:quote --></p>
+<blockquote class="wp-block-quote"><p><strong>Tip:</strong> If you need to remove or change the redirect, add "?stay=true" to the end of the URL. Example: https://contoso.sharepoint.com/?stay=true</p>
+</blockquote>
+<p><!-- /wp:quote --></p>
+<p><!-- wp:heading --></p>
+<h2>Redirect classic sites</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>If your migration also includes moving away from a classic publishing site to a modern communication site, you will face issues since the old URL pointed the users to the <strong>Pages/Default.aspx</strong> (or a similar folder if using other default languages).</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A workaround could be to create a classic site pages library in the modern site named <strong>Pages</strong> and add a landing page informing the users of the new site address. Note that this only work on modern team sites, not for communication sites.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Using the PnP.PowerShell (https://pnp.github.io/powershell) module:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>Connect-PnPOnline -Url https://contoso.sharepoint.com
+New-PnPList -Title Pages -Template WebPageLibrary</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>Then go to the newly created library and add a page named <strong>Default</strong>. In this page you could add some information informing the end-users that the site has moved.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":1329,"sizeSlug":"large","linkDestination":"media"} --></p>
+<figure class="wp-block-image size-large"><a href="https://aflyen.files.wordpress.com/2022/04/image-5.png"><img src="{{ site.baseurl }}/assets/2022/04/image-5.png?w=340" alt="" class="wp-image-1329" /></a></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>It is also possible to add a redirect using JavaScript like this example:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>&lt;script&gt;
+function corpRedirectPage() { 
+	var urlParams = new URLSearchParams(window.location.search);
+	var stay = urlParams.get('stay');
+	
+	if (stay === 'true') { 
+		return; 
+	}
+	
+	window.setTimeout(function() { 
+		window.location.href = 'https://contoso.sharepoint.com/sites/news'; 
+	}, 1500); 
+} 
+
+_spBodyOnLoadFunctionNames.push("corpRedirectPage");
+&lt;/script&gt;</code></pre>
+<p><!-- /wp:code --></p>
+<p><!-- wp:paragraph --></p>
+<p>If you need to remove or change the redirect, add "?stay=true" to the end of the URL. Example: https://contoso.sharepoint.com/Pages/Default.aspx?stay=true</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":1330,"sizeSlug":"large","linkDestination":"media"} --></p>
+<figure class="wp-block-image size-large"><a href="https://aflyen.files.wordpress.com/2022/04/image-6.png"><img src="{{ site.baseurl }}/assets/2022/04/image-6.png?w=1024" alt="" class="wp-image-1330" /></a></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>Note: Using JavaScript is most likely blocked on the site due to the new default policies. This can be changed temporarily before adding the script to the page:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code># Enable custom scripts
+Set-PnPSite -Identity https://contoso.sharepoint.com -DenyAndAddCustomizePages:$false
+
+# Add script to page
+
+# Disable custom scripts
+Set-PnPSite -Identity https://contoso.sharepoint.com -DenyAndAddCustomizePages:$true</code></pre>
+<p><!-- /wp:code --></p>

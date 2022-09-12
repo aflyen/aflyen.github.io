@@ -1,0 +1,101 @@
+---
+layout: post
+title: Hide the next steps dialog from newly created sites in SharePoint
+date: 2022-05-25 15:51:01.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Microsoft 365
+tags:
+- C#
+- PnP
+- PowerShell
+- SharePoint Online
+meta:
+  _oembed_cc9ec24d4949cc059abe9525bac5e12e: '<blockquote class="wp-embedded-content"
+    data-secret="ZTkN19ufQH"><a href="http://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/">Hide
+    the template gallery from newly created sites in&nbsp;SharePoint</a></blockquote><iframe
+    class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="position:
+    absolute; clip: rect(1px, 1px, 1px, 1px);" title="&#8220;Hide the template gallery
+    from newly created sites in&nbsp;SharePoint&#8221; &#8212; Are Flyen" src="http://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/embed/#?secret=CceZMVa2kT#?secret=ZTkN19ufQH"
+    data-secret="ZTkN19ufQH" width="500" height="282" frameborder="0" marginwidth="0"
+    marginheight="0" scrolling="no"></iframe>'
+  _oembed_ea32d35403c6aac72e9e5c770ec74e1f: "{{unknown}}"
+  _last_editor_used_jetpack: block-editor
+  _oembed_b3b184bd8643e49fd9fb3072e4b105c9: '<blockquote class="wp-embedded-content"
+    data-secret="a9InRdT3kv"><a href="https://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/">Hide
+    the template gallery from newly created sites in&nbsp;SharePoint</a></blockquote><iframe
+    class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="position:
+    absolute; clip: rect(1px, 1px, 1px, 1px);" title="&#8220;Hide the template gallery
+    from newly created sites in&nbsp;SharePoint&#8221; &#8212; Are Flyen" src="https://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/embed/#?secret=3ooW4ChFyj#?secret=a9InRdT3kv"
+    data-secret="a9InRdT3kv" width="600" height="338" frameborder="0" marginwidth="0"
+    marginheight="0" scrolling="no"></iframe>'
+  _oembed_time_b3b184bd8643e49fd9fb3072e4b105c9: '1653486391'
+  _oembed_7a1588a858cadc2a6c58262f73948f4e: "{{unknown}}"
+  timeline_notification: '1653486665'
+  _oembed_79cc7cfae4669225a46d55cb3c0292f6: "{{unknown}}"
+  _publicize_job_id: '72923395101'
+  _oembed_time_cc9ec24d4949cc059abe9525bac5e12e: '1653486668'
+  _oembed_90a1cc0010525bae371fd5d02ab056b2: "{{unknown}}"
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2022/05/25/hide-the-next-steps-dialog-from-newly-created-sites-in-sharepoint/"
+---
+<p><!-- wp:paragraph --></p>
+<p>When you create new team or communication sites in SharePoint, the first user that visits will be presented with a template gallery picker. This can be disabled by follow these steps:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:embed {"url":"https://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/","type":"wp-embed","providerNameSlug":"are-flyen"} --></p>
+<figure class="wp-block-embed is-type-wp-embed is-provider-are-flyen wp-block-embed-are-flyen">
+<div class="wp-block-embed__wrapper">
+https://areflyen.no/2022/05/25/hide-the-template-gallery-from-newly-created-sites-in-sharepoint/
+</div>
+</figure>
+<p><!-- /wp:embed --></p>
+<p><!-- wp:paragraph --></p>
+<p>After the web template dialog is closed, a new panel is opened on the right side of the page:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":1372,"sizeSlug":"large","linkDestination":"media"} --></p>
+<figure class="wp-block-image size-large"><a href="https://aflyen.files.wordpress.com/2022/05/spo-first-run-dialog.png"><img src="{{ site.baseurl }}/assets/2022/05/spo-first-run-dialog.png?w=1024" alt="" class="wp-image-1372" /></a></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>As with the template gallery, presenting this dialog to enable the end-user to customize their site is a great addition if you are using the default templates. For organization with their own provisioning solution and templates, this feature might cause confusion, and even end up in the user breaking your ready made site with their own template.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2>Disable the template dialog with PowerShell</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Using the PnP.PowerShell module (<a href="https://pnp.github.io/powershell/">https://pnp.github.io/powershell/</a>) you could in example run this after applying a provisioning template:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:embed {"url":"https://gist.github.com/aflyen/d2aeb73de5fec8aeb51f73640c150451","type":"rich","providerNameSlug":"embed-handler"} --></p>
+<figure class="wp-block-embed is-type-rich is-provider-embed-handler wp-block-embed-embed-handler">
+<div class="wp-block-embed__wrapper">
+https://gist.github.com/aflyen/d2aeb73de5fec8aeb51f73640c150451
+</div>
+</figure>
+<p><!-- /wp:embed --></p>
+<p><!-- wp:heading --></p>
+<h2>Disable the template dialog with C#</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>If you are using the PnP.Framework for C# (<a href="https://github.com/pnp/pnpframework">https://github.com/pnp/pnpframework</a>) you could add this code to your solution to disable the dialog:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:embed {"url":"https://gist.github.com/aflyen/70bd99e409881c5de74ce2bdc205ca2a","type":"rich","providerNameSlug":"embed-handler"} --></p>
+<figure class="wp-block-embed is-type-rich is-provider-embed-handler wp-block-embed-embed-handler">
+<div class="wp-block-embed__wrapper">
+https://gist.github.com/aflyen/70bd99e409881c5de74ce2bdc205ca2a
+</div>
+</figure>
+<p><!-- /wp:embed --></p>
+<p><!-- wp:heading --></p>
+<h2>Summary</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>The next steps dialog adds a great capability for basic usage, but can cause unnecessary confusion where you have a enterprise grade provisioning solution. In these cases it can make sense to disable the dialog.</p>
+<p><!-- /wp:paragraph --></p>

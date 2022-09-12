@@ -1,0 +1,94 @@
+---
+layout: post
+title: Using BCS from PowerShell with SharePoint 2013
+date: 2015-05-25 08:01:40.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- BCS
+- Migration
+- PowerShell
+- SharePoint 2013
+meta:
+  _publicize_job_id: '12274748531'
+  _edit_last: '14768874'
+  geo_public: '0'
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2015/05/25/using-bcs-from-powershell-with-sharepoint-2013/"
+---
+<p>Running data migrations with SharePoint 2013 often involves using BCS and PowerShell if you don't have and third party tools at hand. This can be a bit tricky to set up, but once you are familiar the the BCS configuration, the PowerShell scripts are mostly straight forward.</p>
+<p>From my experience there are a few differences when running against BCS lists vs. regular lists. I have now been able to find a good guide for this, so from my own trial and error I wanted to share a few tips.</p>
+<h2>Get the context straight: Accessing the list gives a weird error</h2>
+<p><span style="text-decoration:underline;">Running this:</span></p>
+{% highlight powershell %}
+$Web = Get-SPWeb "http://mybcsweb/""
+$Web.GetList("/Lists/MyBcsDataList")
+{% endhighlight %}
+<p><span style="text-decoration:underline;">Gives this error:</span></p>
+<p><em>format-default : The shim execution failed unexpectedly - Proxy creation failed. Default context not found..    + CategoryInfo          : NotSpecified: (:) [format-default], BdcException   + FullyQualifiedErrorId : Microsoft.BusinessData.Infrastructure.BdcException,Microsoft.PowerShell.Commands.FormatDefaultComman</em></p>
+<p><a href="https://aflyen.files.wordpress.com/2015/05/bcs-powershell-sp2013-1.png"><img class="alignnone size-large wp-image-355" src="{{ site.baseurl }}/assets/2015/05/bcs-powershell-sp2013-1.png?w=660" alt="bcs-powershell-sp2013-1" width="660" height="67" /></a></p>
+<p><span style="text-decoration:underline;">The fix:</span></p>
+{% highlight powershell %}
+$Site = Get-SPSite "http://mybcsweb"
+$ServiceContext = Get-SPServiceContext -Site $Site # Required when working with BCS
+$ServiceScope = New-Object Microsoft.SharePoint.SPServiceContextScope $ServiceContext # Required when working with BCS
+$Web = $Site.RootWeb
+$Web.GetList("/Lists/MyBcsDataList")
+{% endhighlight %}
+<p>A bit more wiring is required to get the context straight for BCS to work.</p>
+<h2>Make sure you are running with administrator privileges</h2>
+<p>I use PowerShell ISE when creating and running these scripts. From time to time I accidently forget to start this with Administrator privileges. This can fool you into weird errors like this one. Short minded one can try to start adding the missing assembly references, but the real reason is the missing privileges.</p>
+<p><span style="text-decoration:underline;">Running this:</span></p>
+{% highlight powershell %}
+$Web = Get-SPWeb "http://mybcsweb/"
+$Web.GetList("/Lists/MyBcsDataList")
+{% endhighlight %}
+<p><span style="text-decoration:underline;">Gives this error:</span></p>
+<p>format-default : The shim execution failed unexpectedly - Could not load file or assembly 'System.Data.OracleClient, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' or one of its dependencies. Either a required impersonation level was not provided, or the provided impersonation level is invalid. (Exception from HRESULT: 0x80070542).    + CategoryInfo          : NotSpecified: (:) [format-default], BdcException  + FullyQualifiedErrorId : Microsoft.BusinessData.Infrastructure.BdcException,Microsoft.PowerShell.Commands.FormatDefaultCommand</p>
+<p><a href="https://aflyen.files.wordpress.com/2015/05/bcs-powershell-sp2013-2.png"><img class="alignnone size-large wp-image-356" src="{{ site.baseurl }}/assets/2015/05/bcs-powershell-sp2013-2.png?w=660" alt="bcs-powershell-sp2013-2" width="660" height="47" /></a></p>
+<p><span style="text-decoration:underline;">The fix:</span></p>
+<p>Search for "PowerShell ISE", right-click it and choose "Run as Administrator".</p>
+<p><a href="https://aflyen.files.wordpress.com/2015/05/bcs-powershell-sp2013-3.png"><img class="alignnone size-full wp-image-357" src="{{ site.baseurl }}/assets/2015/05/bcs-powershell-sp2013-3.png" alt="bcs-powershell-sp2013-3" width="352" height="467" /></a></p>
+<h2>Include ViewFields in you CAML queries</h2>
+<p>Always remember to include the fields you are trying to query on in the "&lt;Where&gt;" statement within "&lt;ViewFields&gt;". This isn't required on regular lists, but to get any results in return, I experienced I was required to include them querying BCS lists.</p>
+<p><span style="text-decoration:underline;">Example of CAML query in PowerShell:</span></p>
+{% highlight powershell %}
+$Query= New-Object Microsoft.SharePoint.SPQuery 
+ 
+$Query.ViewXml =
+ "<View>
+ <Method Name='Read List'/>
+ <Query>
+ <Where>
+ <And>
+ <Eq>
+ <FieldRef Name='ProjectID' />
+ <Value Type='Text'>100</Value>
+ </Eq>
+ <Eq>
+ <FieldRef Name='Role' />
+ <Value Type='Text'>Project Manager</Value>
+ </Eq>
+ </And>
+ </Where>
+ </Query>
+ <ViewFields>
+ <FieldRef Name='ProjectID'/>
+ <FieldRef Name='Role'/>
+ </ViewFields>
+ </View>"
+ 
+ $Items = $List.GetItems($Query)
+{% endhighlight %}
+<h2>Summary</h2>
+<p>BCS has been around for a while and isn't something very existing. But as mention in the introduction, using it for data migrations is very powerful, specially when you don't have any 3. parts tools around. Doing this from PowerShell is pretty straight forward, but these three issues I experienced can be a headache if you get stuck with them. Hopefully this post can help others get quickly passed them!</p>

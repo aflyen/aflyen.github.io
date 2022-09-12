@@ -1,0 +1,52 @@
+---
+layout: post
+title: Using the SharePoint 2013 social Newsfeed on other sites than the MySite host
+date: 2014-02-03 21:15:56.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- Intranet
+- MySite
+- PowerShell
+- SharePoint 2013
+- Social
+meta:
+  _edit_last: '14768874'
+  _publicize_pending: '1'
+  _oembed_c214b783932523b33f4152e28c07f48a: "{{unknown}}"
+  _oembed_06e1c59e1c59deb9a9ac2a5453f812cb: "{{unknown}}"
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2014/02/03/using-the-sharepoint-2013-social-newsfeed-on-other-sites-than-the-mysite-host/"
+---
+<p><span style="line-height:1.714285714;font-size:1rem;">The "Newsfeed" found on MySite, is a web part with the same name, and can easily be added to other sites if you enable a hidden feature. From what I can tell, this work fine, but not perfect.</span></p>
+<p>The reason I don't feel this is a perfect good solution is due to a bug within the web part. The bug is a bit hidden if you haven't tested all the features within the the feed. This bug has not been fixed at the time of writing, and also present in Office 365.</p>
+<h2>Enable the "Newsfeed" web part</h2>
+<p><span style="line-height:1.714285714;font-size:1rem;">To enable the social newsfeed on another site, first you have to activate a hidden feature named "MySiteLayouts" in PowerShell (replace the URL with your site):</span></p>
+<p>[code language="powershell"]<br />
+Enable-SPFeature -Identity &quot;6928b0e5-5707-46a1-ae16-d6e52522d52b&quot; -Url http://sp2013<br />
+[/code]</p>
+<p>Now the WebPart we are looking for, Newsfeed, is available at the current site under the "Social Collaboration" group:</p>
+<p><a href="http://aflyen.files.wordpress.com/2014/01/mysite-newsfeed-1.png"><img class="alignnone size-large wp-image-206" alt="mysite-newsfeed-1" src="{{ site.baseurl }}/assets/2014/02/mysite-newsfeed-1.png?w=625" width="625" height="171" /></a></p>
+<p>The "Newsfeed" now appears as expected, and we can start using it without any more configuration. If you place both the Newsfeed and Sitefeed on the same page, then the Newsfeed won't load. Not that I can find any good reason why you even would think of doing so... well, I tried... ;-)</p>
+<p>The bug I mentioned above is hidden in a popup-notification when you create a new task to follow up a social post.</p>
+<h2>Reproducing the bug in the newsfeed</h2>
+<p>Post a new message to the feed, and open the context menu on the message by selecting "...". Choose "Follow up".</p>
+<p><a href="http://aflyen.files.wordpress.com/2014/01/mysite-newsfeed-2.png"><img class="alignnone size-full wp-image-207" alt="mysite-newsfeed-2" src="{{ site.baseurl }}/assets/2014/02/mysite-newsfeed-2.png" width="483" height="546" /></a></p>
+<p>A popup in the upper right corner will appear like this example:</p>
+<p><a href="http://aflyen.files.wordpress.com/2014/01/mysite-newsfeed-3.png"><img class="alignnone size-large wp-image-208" alt="mysite-newsfeed-3" src="{{ site.baseurl }}/assets/2014/02/mysite-newsfeed-3.png?w=625" width="625" height="298" /></a></p>
+<p>If you now try to click the link in the popup like it states, then you get in trouble:</p>
+<p><a href="http://aflyen.files.wordpress.com/2014/01/mysite-newsfeed-4.png"><img class="alignnone size-large wp-image-209" alt="mysite-newsfeed-4" src="{{ site.baseurl }}/assets/2014/02/mysite-newsfeed-4.png?w=625" width="625" height="339" /></a></p>
+<p>You will end up with this spinner. From the URL, I assume that this feature was designed for a relative linking to the MySite host. The same bug can also be found in the "Sitefeed" web part.</p>
+<h2>Summary</h2>
+<p>It is possible to use the standard "Newsfeed" from MySite on other sites in SharePoint. Even if the feed appears to work pretty fine, there is a bug hidden below the "Follow up" function. This combined with the feature being hidden, using the feed in other ways than Microsoft intended us to do might not be a risk free alternative.</p>
+<p>So instead of trying to re-engineer a social intranet site somewhere else, why not build the intranet on the MySite Host? I have also explored this approach, and might share more details here in the future.</p>

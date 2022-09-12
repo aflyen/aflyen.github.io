@@ -1,0 +1,56 @@
+---
+layout: post
+title: Setting up internet access for Hyper-V with NAT in Windows 8
+date: 2012-10-10 15:47:41.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- Development environment
+- Hyper-V
+- Windows 8
+meta:
+  _edit_last: '14768874'
+  _publicize_pending: '1'
+  twitter_cards_summary_img_size: a:6:{i:0;i:275;i:1;i:144;i:2;i:3;i:3;s:24:"width="275"
+    height="144"";s:4:"bits";i:8;s:4:"mime";s:9:"image/png";}
+  _oembed_48fe453b8d90946b56cb9b404bf0395c: "{{unknown}}"
+  _oembed_c2300339a207ae33b7662850b32b1789: "{{unknown}}"
+  _oembed_b86d902883f4f14bad1df0fa5cb53d68: "{{unknown}}"
+  _oembed_634500a10734d6e79a8c6c5cc1c58cd9: "{{unknown}}"
+  _oembed_bd872856405d516e283d58891fd79f61: "{{unknown}}"
+  _oembed_d3e4d0e04a51cf5c898d19ae0eb8da6b: "{{unknown}}"
+  _oembed_c91cd6a49bdd8a17ed7238092c028336: "{{unknown}}"
+  _oembed_04538cf6dc2a19941b9d135f9ee63d2b: "{{unknown}}"
+  _oembed_f7de3a37151ed3a3bff5807f7573bf48: "{{unknown}}"
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2012/10/10/setting-up-internet-access-for-hyper-v-with-nat-in-windows-8/"
+---
+<p>In my work with development of SharePoint solutions, I heavily rely on virtualized environments on my own laptop computer. Working inside virtualized environments complicates the configuration of your own infrastructure, and to get and acceptable user experience inside the virtual machines a working internet connection is a requirement.</p>
+<p>Earlier Hyper-V was only supported on the server OS, but from Windows 8 this has also been added to the client OS as well.  Since I run this on my laptop computer, connected to different networks from time to time, it gives me some other requirements for the internet access than traditional fixed location Hyper-V setups. Setting up an external virtual network switch could give me internet access, but also connects the virtual machine directly to the host network. Exposing the virtual machines on the host network has many disadvantages, so setting up a NAT’ed solution where they are hidden behind the host computer's network connection would be a better solution to me.</p>
+<h2>Creating a new virtual switch in Hyper-V</h2>
+<p>Start by opening the <strong>Hyper-V Manager</strong>, and locate the  <strong>Virtual Switch Manager</strong> in the <strong>Actions</strong> menu.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/10/hyper-v-image-1.png"><img class="alignnone size-full wp-image-106" title="Hyper-V - Image 1" src="{{ site.baseurl }}/assets/2012/10/hyper-v-image-1.png" alt="" width="275" height="144" /></a></p>
+<p>Create a new virtual network switch by selecting <strong>New virtual network switch</strong>, give it a name (in this example “Shared”) and select the connection type <strong>Internal</strong>.</p>
+<h2><a href="http://aflyen.files.wordpress.com/2012/10/hyper-v-image-2.png"><img class="alignnone size-full wp-image-107" title="Hyper-V - Image 2" src="{{ site.baseurl }}/assets/2012/10/hyper-v-image-2.png" alt="" width="584" height="275" /></a></h2>
+<h2>Configure internet access for the new virtual switch</h2>
+<p>The next step is to share your current internet connection on the host with the newly created virtual network switch in Hyper-V.</p>
+<p>Open <strong>Control Panel</strong> -&gt; <strong>Network and Internet</strong> -&gt; <strong>Network Connections</strong>.</p>
+<p>Right click on your connection who has access to internet (in this example "Wi-Fi"), and select <strong>Properties</strong>.</p>
+<p>Select <strong>Allow other network users</strong>… and select the newly created virtual network switch (prefixed with "vEthernet"). The name in this case is the save as entered as name for the virtual network switch, in this example “Shared”.</p>
+<p><a href="http://aflyen.files.wordpress.com/2012/10/hyper-v-image-3.png"><img class="alignnone size-full wp-image-108" title="Hyper-V - Image 3" src="{{ site.baseurl }}/assets/2012/10/hyper-v-image-3.png" alt="" width="349" height="241" /></a></p>
+<p>After selecting <strong>OK</strong> the virtual network swich will get a static IP of 192.168.137.1, and serve as a DHCP server within that range for the virtual machines.</p>
+<h2>Enable internet access on virtual machines</h2>
+<p>In <strong>Hyper-V Manager</strong>, select a virtual machine and <strong>Settings</strong> from the menu. Make sure the virtual machine is powered off first.</p>
+<p>Choose to add new hardware, network adapter and select the newly created virtual network switch. Power on the virtual machine, and a new network adapter with NAT'ed internet access should appear. The adapter should have been assigned a dynamic IP-address from the 192.168.137.x range.</p>
+<h2>Summary</h2>
+<p>In this walk through we have seen how to configuring NAT'ed internet access for virtual machine in Hyper-V. Even if this guide was created for Windows 8, most of the steps can be applied both on Windows Server 2008 R2 and 2012 with the same result.</p>

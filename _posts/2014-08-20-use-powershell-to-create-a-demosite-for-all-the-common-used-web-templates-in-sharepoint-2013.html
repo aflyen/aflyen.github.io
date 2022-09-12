@@ -1,0 +1,90 @@
+---
+layout: post
+title: Use PowerShell to create a demosite for all the common used Web Templates in
+  SharePoint 2013
+date: 2014-08-20 09:48:43.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- SharePoint
+tags:
+- PowerShell
+- SharePoint 2013
+meta:
+  _edit_last: '14768874'
+  geo_public: '0'
+  _publicize_pending: '1'
+  _oembed_6375233c7a99ad4323402f1886c1f04a: "{{unknown}}"
+  _oembed_5360426745d5de49f4335ff14e74094d: "{{unknown}}"
+author:
+  login: aflyen
+  email: aflyen@gmail.com
+  display_name: Are Flyen
+  first_name: Are
+  last_name: Flyen
+permalink: "/2014/08/20/use-powershell-to-create-a-demosite-for-all-the-common-used-web-templates-in-sharepoint-2013/"
+---
+<p>In my <a title="Common used Web Templates in SharePoint 2013 with screenshots" href="http://wp.me/p2qqzy-45" target="_blank">previous article</a> I provided a list of all the common used web templates in SharePoint 2013. For demo purposes it can be handy to spin up a copy of all these templates and later easy remove them. Using PowerShell we can accomplish this with the snippets provided below. Change the parameters under "Configuration" to match your own environment.</p>
+<h2>Create new site collections</h2>
+<p>This snippet will create a new site collection for each of the web templates.</p>
+<p>[code language="powershell"]</p>
+<p>Add-PSSnapin Microsoft.SharePoint.PowerShell</p>
+<p># Configuration<br />
+$webApp = &quot;http://intranet.contoso.com&quot;<br />
+$managedPath = &quot;sites&quot;<br />
+$siteOwner = &quot;contoso\sp_admin&quot;<br />
+$languageId = 1033</p>
+<p># Create site collections for demo<br />
+Write &quot;Create demo sites&quot;<br />
+Start-SPAssignment -Global<br />
+New-SPSite &quot;$webApp/$managedPath/demo-team-site&quot; -Name &quot;Team Site&quot; -Template &quot;STS#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-blog&quot; -Name &quot;Blog&quot; -Template &quot;BLOG#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-dev-site&quot; -Name &quot;Developer Site&quot; -Template &quot;DEV#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-project-iste&quot; -Name &quot;Project Site&quot; -Template &quot;PROJECTSITE#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-community-site&quot; -Name &quot;Community Site&quot; -Template &quot;COMMUNITY#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-document-center&quot; -Name &quot;Document Center&quot; -Template &quot;BDR#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-ediscovery-center&quot; -Name &quot;eDiscovery Center&quot; -Template &quot;EDISC#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-records-center&quot; -Name &quot;Records Center&quot; -Template &quot;OFFILE#1&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-bi-center&quot; -Name &quot;Business Intelligence Center&quot; -Template &quot;BICenterSite#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-ent-search-center&quot; -Name &quot;Enterprise Search Center&quot; -Template &quot;SRCHCEN#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-mysite-host&quot; -Name &quot;My Site Host&quot; -Template &quot;SPSMSITEHOST#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-community-portal&quot; -Name &quot;Community Portal&quot; -Template &quot;COMMUNITYPORTAL#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-basic-search-center&quot; -Name &quot;Basic Search Center&quot; -Template &quot;SRCHCENTERLITE#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-visio-process-rep&quot; -Name &quot;Visio Process Repository&quot; -Template &quot;visprus#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-pub-portal&quot; -Name &quot;Publishing Portal&quot; -Template &quot;BLANKINTERNETCONTAINER#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-ent-wiki&quot; -Name &quot;Enterprise Wiki&quot; -Template &quot;ENTERWIKI#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+New-SPSite &quot;$webApp/$managedPath/demo-prod-catalog&quot; -Name &quot;Product Catalog&quot; -Template &quot;PRODUCTCATALOG#0&quot; -OwnerAlias $siteOwner -Language $languageId<br />
+Stop-SPAssignment -Global</p>
+<p>[/code]</p>
+<h2>Clean up and remove all the sites</h2>
+<p>This snippet will delete all the site collections created with the snippet above.</p>
+<p>[code language="powershell"]</p>
+<p># Configuration<br />
+$webApp = &quot;http://intranet.contoso.com&quot;<br />
+$managedPath = &quot;sites&quot;<br />
+$siteOwner = &quot;contoso\sp_admin&quot;<br />
+$languageId = 1033</p>
+<p># Remove site collections<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-team-site&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-blog&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-dev-site&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-project-site&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-community-site&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-document-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-ediscovery-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-records-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-bi-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-ent-search-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-mysite-host&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-community-portal&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-basic-search-center&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-visio-process-rep&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-pub-portal&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-ent-wiki&quot; -Confirm:$false<br />
+Remove-SPSite &quot;$webApp/$managedPath/demo-prod-catalog&quot; -Confirm:$false</p>
+<p>[/code]</p>
+<h2>Summary</h2>
+<p>This article demonstrated how easy we can create a copy of all the common used web templates in SharePoint for demo purposes, and later clean it up.</p>
