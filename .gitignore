@@ -14,4 +14,5 @@ hugo.linux
 
 # Custom
 .vscode
+.frontmatter
 frontmatter.json
