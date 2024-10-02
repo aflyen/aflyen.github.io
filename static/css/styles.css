@@ -1,0 +1,25 @@
+.center {
+    display: block;
+    img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.left {
+    display: block;
+    float: left;
+    img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+.right {
+    display: block;
+    float: right;
+    img {
+        margin-left: auto;
+        margin-right: 0;
+    }
+}
