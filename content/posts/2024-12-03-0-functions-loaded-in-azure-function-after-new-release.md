@@ -36,9 +36,7 @@ I downloaded the latest package by looking at the timestamp:
 
 ![](/assets/2024/0-functions-04.png)
 
-Looking at the content of this folder revealed an issue as we are missing the .azurefunctions folder that should be part of the released solution:
-
-![](/assets/2024/0-functions-05.png)
+Looking at the content of this folder revealed an issue as we are missing the .azurefunctions folder that should be part of the released solution.
 
 ## Solution
 
