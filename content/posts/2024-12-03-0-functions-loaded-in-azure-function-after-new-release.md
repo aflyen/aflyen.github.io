@@ -2,8 +2,8 @@
 title: 0 functions loaded in Azure Function after new release
 description: ""
 date: 2024-12-03T12:02:00.000Z
-preview: ""
-draft: true
+preview: null
+draft: false
 tags:
     - Azure DevOps
     - GitHub
