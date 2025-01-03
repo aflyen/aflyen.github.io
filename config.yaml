@@ -5,14 +5,18 @@ title: Are Flyen
 theme: hyde
 googleAnalytics: G-V7W65Q4G9C
 params:
-  description: "Developer and Solution Architect | Microsoft 365, Power Platform and Azure | Consultant | Collaboration Expert"
+  description: "Solution Architect | Microsoft 365, Power Platform and Azure | Consultant | Collaboration Expert"
 Menus:
   main:
     - Name: "About"
       URL: "/about"
+      Weight: 1
     - Name: "LinkedIn"
       URL: "https://linkedin.com/in/aflyen"
+      Weight: 2
+    - Name: "Bluesky"
+      URL: "https://bsky.app/profile/aflyen.bsky.social"
+      Weight: 3
     - Name: "Github"
       URL: "https://github.com/aflyen"
-    - Name: "Twitter"
-      URL: "https://twitter.com/aflyen"
+      Weight: 4
