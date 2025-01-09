@@ -2,7 +2,7 @@
 title: 0 functions loaded in Azure Function after new release
 description: ""
 date: 2024-12-03T12:02:00.000Z
-preview: null
+preview: /assets/2024/0-functions-summary.png
 draft: false
 tags:
     - Azure DevOps
@@ -62,5 +62,7 @@ In Application Insights we also saw a successful initialization of the function:
 ![](/assets/2024/0-functions-07.png)
 
 ## Summary
+
+![](/assets/2024/0-functions-summary.png)
 
 In this case there had been some months since the last release of the functions, and even if there was a minor change to the codebase an external dependency of the project cased some issues updating the solution. Always have a strategy for testing your solutions in either a dedicated test app or a deployment slot to avoid issues in production.
