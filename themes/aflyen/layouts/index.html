@@ -1,9 +1,7 @@
 {{ define "main" }}
   {{ $posts := where site.RegularPages "Section" "posts" }}
   {{ $sorted := $posts.ByDate.Reverse }}
-  {{ $featured := index $sorted 0 }}
-
-  {{ with $featured }}
+  {{ with index $sorted 0 }}
     <section class="featured-post">
       <p class="section-label">Latest Post</p>
       <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
