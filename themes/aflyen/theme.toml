@@ -1,0 +1,12 @@
+name = "aflyen"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A modern, light, Fluent-inspired Hugo theme for areflyen.no"
+homepage = "https://areflyen.no"
+tags = ["blog", "light", "fluent", "content-first"]
+features = ["blog", "responsive", "taxonomy", "syntax-highlighting"]
+min_version = "0.123.0"
+
+[author]
+  name = "Are Flyen and contributors"
+  homepage = "https://areflyen.no"

@@ -2,10 +2,11 @@ baseURL: https://areflyen.no
 disablePathToLower: true
 languageCode: en-us
 title: Are Flyen
-theme: hyde
+theme: aflyen
 googleAnalytics: G-V7W65Q4G9C
 params:
-  description: "Solution Architect | Microsoft 365, Power Platform and Azure | Consultant | Collaboration Expert"
+  description: "Solution Architect | Microsoft 365 | Digital Workplace & Collaboration"
+  palette: "warm-orange"
 Menus:
   main:
     - Name: "About"
@@ -14,9 +15,6 @@ Menus:
     - Name: "LinkedIn"
       URL: "https://linkedin.com/in/aflyen"
       Weight: 2
-    - Name: "Bluesky"
-      URL: "https://bsky.app/profile/aflyen.bsky.social"
-      Weight: 3
     - Name: "Github"
       URL: "https://github.com/aflyen"
-      Weight: 4
+      Weight: 3

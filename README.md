@@ -14,9 +14,8 @@ sudo apt install hugo
 Minimal Path to Awesome
 
 ```
-git clone https://github.com/aflyen/hugo-static-app.git
+git clone https://github.com/aflyen/aflyen.github.io.git
 cd aflyen.github.io
-git submodule update --init
 hugo server
 ```
 
