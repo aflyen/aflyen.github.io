@@ -15,6 +15,6 @@ Menus:
     - Name: "LinkedIn"
       URL: "https://linkedin.com/in/aflyen"
       Weight: 2
-    - Name: "Github"
+    - Name: "GitHub"
       URL: "https://github.com/aflyen"
       Weight: 3
