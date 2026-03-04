@@ -7,6 +7,7 @@
   --accent: #0a66c2;
   --accent-soft: #eaf3ff;
   --accent-strong: #003f7f;
+  --btn-text: #ffffff;
   --radius: 8px;
   --radius-sm: 6px;
   --shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
@@ -18,6 +19,7 @@ body.palette-warm-orange {
   --accent: #ffc600;
   --accent-soft: #fff7d6;
   --accent-strong: #5c4600;
+  --btn-text: #3d2b00;
   --line: #e7ddbf;
   --grad-start: #ffc600;
   --grad-end: #ffb300;
@@ -216,7 +218,7 @@ a:hover {
   display: inline-block;
   border: 1px solid var(--accent-strong);
   background: var(--accent);
-  color: #1f1700;
+  color: var(--btn-text);
   border-radius: 6px;
   padding: 0.46rem 0.82rem;
   font-size: 0.85rem;
@@ -225,7 +227,7 @@ a:hover {
 }
 
 .button-link:hover {
-  color: #1f1700;
+  color: var(--btn-text);
   text-decoration: none;
   filter: brightness(1.02);
 }
