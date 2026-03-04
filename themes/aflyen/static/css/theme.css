@@ -405,6 +405,10 @@ a:hover {
 }
 
 @media (max-width: 860px) {
+  .site-header {
+    position: static;
+  }
+
   .site-header__inner {
     flex-direction: column;
     align-items: flex-start;
@@ -418,10 +422,10 @@ a:hover {
   .site-nav {
     width: 100%;
     justify-content: flex-start;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    column-gap: 0.55rem;
-    row-gap: 0.35rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    overflow-x: auto;
   }
 
   .page-shell {
@@ -438,4 +442,3 @@ a:hover {
     gap: 0.4rem;
   }
 }
-
