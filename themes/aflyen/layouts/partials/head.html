@@ -1,0 +1,17 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+{{ $description := or .Description .Summary site.Params.description }}
+{{ with $description }}<meta name="description" content="{{ . | plainify | htmlUnescape | truncate 160 }}">{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+{{ range .AlternativeOutputFormats -}}
+  <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+{{ end -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ "css/theme.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
+{{ template "_internal/opengraph.html" . }}
+{{ template "_internal/twitter_cards.html" . }}
+{{ template "_internal/google_analytics.html" . }}

@@ -1,0 +1,49 @@
+{{ define "main" }}
+  {{ $posts := where site.RegularPages "Section" "posts" }}
+  {{ $sorted := $posts.ByDate.Reverse }}
+  {{ with index $sorted 0 }}
+    <section class="featured-post">
+      <p class="section-label">Latest Post</p>
+      <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+      {{ partial "article-meta.html" . }}
+      {{ $description := .Description | plainify | replaceRE "^\\s+|\\s+$" "" }}
+      {{ $summary := .Summary | plainify | replaceRE "^\\s+|\\s+$" "" }}
+      {{ $preface := "" }}
+      {{ if and (ne $description "") (not (hasPrefix $description "/")) (not (hasPrefix $description "http")) }}
+        {{ $preface = $description }}
+      {{ else if and (ne $summary "") (not (hasPrefix $summary "/")) (not (hasPrefix $summary "http")) }}
+        {{ $preface = $summary }}
+      {{ end }}
+      {{ with $preface }}
+        <p class="featured-post__summary">{{ . | plainify | truncate 320 }}</p>
+      {{ end }}
+      <a class="button-link" href="{{ .RelPermalink }}">Read article</a>
+    </section>
+  {{ end }}
+
+  <section>
+    <div class="list-header">
+      <h2>Recent Posts</h2>
+      <a href="{{ "/posts/" | relURL }}">See all posts</a>
+    </div>
+    <div class="post-list">
+      {{ range first 12 (after 1 $sorted) }}
+        <article class="post-card">
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          {{ partial "article-meta.html" . }}
+          {{ $description := .Description | plainify | replaceRE "^\\s+|\\s+$" "" }}
+          {{ $summary := .Summary | plainify | replaceRE "^\\s+|\\s+$" "" }}
+          {{ $preface := "" }}
+          {{ if and (ne $description "") (not (hasPrefix $description "/")) (not (hasPrefix $description "http")) }}
+            {{ $preface = $description }}
+          {{ else if and (ne $summary "") (not (hasPrefix $summary "/")) (not (hasPrefix $summary "http")) }}
+            {{ $preface = $summary }}
+          {{ end }}
+          {{ with $preface }}
+            <p>{{ . | plainify | truncate 180 }}</p>
+          {{ end }}
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

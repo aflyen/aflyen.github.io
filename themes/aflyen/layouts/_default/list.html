@@ -1,0 +1,26 @@
+{{ define "main" }}
+  <section>
+    <header class="list-header">
+      <h1>{{ .Title }}</h1>
+    </header>
+    <div class="post-list">
+      {{ range .Pages.ByDate.Reverse }}
+        <article class="post-card">
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          {{ partial "article-meta.html" . }}
+          {{ $description := .Description | plainify | replaceRE "^\\s+|\\s+$" "" }}
+          {{ $summary := .Summary | plainify | replaceRE "^\\s+|\\s+$" "" }}
+          {{ $preface := "" }}
+          {{ if and (ne $description "") (not (hasPrefix $description "/")) (not (hasPrefix $description "http")) }}
+            {{ $preface = $description }}
+          {{ else if and (ne $summary "") (not (hasPrefix $summary "/")) (not (hasPrefix $summary "http")) }}
+            {{ $preface = $summary }}
+          {{ end }}
+          {{ with $preface }}
+            <p>{{ . | plainify | truncate 220 }}</p>
+          {{ end }}
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
