@@ -2,7 +2,7 @@
 title: "Page Title"
 description: "Brief description for meta tags and SEO"
 url: /page-slug/
-draft: false
+draft: true
 ---
 
 Static page content goes here. This is typically used for pages like About, Contact, etc., that don't have publish dates.
