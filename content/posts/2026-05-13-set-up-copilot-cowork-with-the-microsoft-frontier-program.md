@@ -1,7 +1,7 @@
 ---
 title: Set up Copilot Cowork with the Microsoft Frontier program
 description: ""
-date: 2026-05-13T06:15:00Z
+date: 2026-05-13T09:00:00.965Z
 author:
   display_name: Are Flyen
 categories:
@@ -11,7 +11,7 @@ tags:
   - Copilot Cowork
   - Frontier
   - Anthropic
-draft: true
+draft: false
 ---
 
 If you want to test Copilot Cowork in a tenant today, it is not enough to only assign a Microsoft 365 Copilot license and tell users to open Copilot and locate the Cowork agent. At the time of writing we need to both enable the Frontier Program and also opt-in to use Anthropic as a sub-processor before it becomes available to the end users.
