@@ -1,0 +1,9 @@
+{{- $user := .Get 0 -}}
+{{- $id := .Get 1 -}}
+{{- $file := .Get 2 -}}
+{{- $src := printf "https://gist.github.com/%s/%s.js" $user $id -}}
+{{- if $file -}}
+<script src="{{ printf "%s?file=%s" $src (urlquery $file) }}"></script>
+{{- else -}}
+<script src="{{ $src }}"></script>
+{{- end -}}
